@@ -81,3 +81,34 @@ TEST_CASE("Board::isGameOver()") {
         REQUIRE(b.isGameOver());
     }
 }
+
+TEST_CASE("Board::placeRandomTile()") {
+    Board b;
+
+    SECTION("Blank board") {
+        b.placeRandomTile();
+        bool tilePlaced {false};
+        for (int i {0}; i < b.size(); ++i) {
+            if (b[i] != 0) {
+                tilePlaced = true;
+                break;
+            }
+        }
+        REQUIRE(tilePlaced);
+    }
+
+    SECTION("One blank tile left") {
+        for (int i {1}; i < b.size(); ++i) {
+            b[i] = (i+1);
+        }
+        b.placeRandomTile();
+        REQUIRE(b[0] != 0);
+    }
+
+    SECTION("Sanity check - gridlocked board") {
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = (i+1);
+        }
+        REQUIRE_THROWS(b.placeRandomTile());
+    }
+}

@@ -32,6 +32,7 @@ bool Tile::operator!=(const Tile& t) const {
 Tile& Tile::operator*=(const int n) {
     val *= n;
     merged = true;
+    return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const Tile& t) {

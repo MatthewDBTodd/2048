@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 #include "Board.h"
 
 std::ostream& operator<<(std::ostream& os, const Board& b) {
@@ -13,14 +14,14 @@ std::ostream& operator<<(std::ostream& os, const Board& b) {
     return os;
 }
 
-const Tile& Board::operator[](const int i) const {
+const Tile& Board::operator[](const std::size_t i) const {
     if (i < 0 || i >= board.size()) {
         throw std::exception();
     }
     return board[i];
 }
 
-Tile& Board::operator[](const int i) {
+Tile& Board::operator[](const std::size_t i) {
     if (i < 0 || i >= board.size()) {
         throw std::exception();
     }
@@ -42,4 +43,24 @@ bool Board::isGameOver() {
         }
     }
     return true;
+}
+
+void Board::placeRandomTile() {
+    std::vector<Tile*> emptyTiles;
+    for (auto& t : board) {
+        if (t == 0) {
+            emptyTiles.push_back(&t);
+        }
+    }
+    if (emptyTiles.size() == 0) throw std::exception();
+    int index {getRandomNum(emptyTiles.size()-1)};
+    int randomVal = (getRandomNum(9) == 9) ? 4 : 2;
+    emptyTiles[index]->setValue(randomVal);
+}
+
+int getRandomNum(std::size_t range) {
+    std::random_device d;
+    std::mt19937 rng(d());
+    std::uniform_int_distribution<std::mt19937::result_type> num(0, range);
+    return num(rng);
 }
