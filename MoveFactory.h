@@ -10,19 +10,8 @@ class MoveFactory {
 private:
     std::map<char, ptr> movers;
 public:
-    MoveFactory() {
-        ptr u {new Up()};
-        ptr d {new Down()};
-        ptr r {new Right()};
-        ptr l {new Left()};
-        movers.insert({'u', u});
-        movers.insert({'d', d});
-        movers.insert({'r', r});
-        movers.insert({'l', l});
-    }
-    ptr get(char ch) {
-        return movers[ch];
-    }
+    MoveFactory();
+    ptr get(const char ch); 
 };
 
 #endif

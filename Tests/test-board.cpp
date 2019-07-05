@@ -21,39 +21,63 @@ TEST_CASE("Board::operator[]") {
     }
 }
 
-TEST_CASE("move()") {
-    /*
-     * test moving a tile several times until it reaches a non equal tile
-     * test moving a tile several times until it reaches a merge
-     * test moving a tile several times until it reaches the edge
-     *
-    SECTION("Moving a single tile until it reaches the edge") {
-        tiles[0].setValue(2);
-        move(tiles, r);
-        REQUIRE(tiles[0] == 0);
-        REQUIRE(tiles[1] == 0);
-        REQUIRE(tiles[2] == 0);
-        REQUIRE(tiles[3] == 2);
+TEST_CASE("Board::isGameOver()") {
+    Board b;
+
+    SECTION("Sanity check, blank board") {
+        REQUIRE(!b.isGameOver());
     }
 
-    SECTION("Moving a single tile several times until it reaches a non equal tile") {
-        tiles[0].setValue(2);
-        tiles[3].setValue(4);
-        move(tiles, r);
-        REQUIRE(tiles[0] == 0);
-        REQUIRE(tiles[1] == 0);
-        REQUIRE(tiles[2] == 2);
-        REQUIRE(tiles[3] == 4);
+    SECTION("Single blank tile") {
+        for (int i {1}; i < b.size(); ++i) {
+            b[i] = i;
+        }
+        REQUIRE(!b.isGameOver());
     }
 
-    SECTION("Moving a single tile several times until it reaches a merge") {
-        tiles[0].setValue(2);
-        tiles[3].setValue(2);
-        move(tiles, r);
-        REQUIRE(tiles[0] == 0);
-        REQUIRE(tiles[1] == 0);
-        REQUIRE(tiles[2] == 0);
-        REQUIRE(tiles[3] == 4);
+    SECTION("Full board with all same value") {
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = 2;
+        }
+        REQUIRE(!b.isGameOver());
     }
-    */
+
+    SECTION("(0,0) -> (1,0)") {
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = i;
+        }
+        b[0] = 4;
+        REQUIRE(!b.isGameOver());
+    }
+
+    SECTION("(0,3) -> (1,3") {
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = i;
+        }
+        b[7] = 3;
+        REQUIRE(!b.isGameOver());
+    }
+
+    SECTION("(3,0) -> (3,1)") {
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = i;
+        }
+        b[13] = 12;
+        REQUIRE(!b.isGameOver());
+    }
+
+    SECTION("(2,3) -> (3,3)") {
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = i;
+        }
+        b[15] = 11;
+        REQUIRE(!b.isGameOver());
+    }
+
+    SECTION("Full board with different values") {
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = (i+1);
+        }
+        REQUIRE(b.isGameOver());
+    }
 }
