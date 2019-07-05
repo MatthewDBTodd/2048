@@ -45,6 +45,8 @@ void swap(Tile& t1, Tile& t2) {
     Tile temp = t1;
     t1 = t2;
     t2 = temp;
+
+    // possibly recursively call this?
 }
 
 void merge(Tile& origin, Tile& dest) {
