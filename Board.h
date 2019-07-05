@@ -4,17 +4,16 @@
 #include <vector>
 #include <ostream>
 #include "Tile.h"
-#include "Mover.h"
 
 class Board {
 private:
+    int s;
     std::vector<Tile> board;
 public:
-    Board() : board(16) {}
+    Board() : s {16}, board(s) {}
+    int size() { return s; }
     friend std::ostream& operator<<(std::ostream& os, const Board& b);
     const Tile& operator[](const int i) const;
     Tile& operator[](const int i);
 };
-
-void move(std::vector<Tile>& board, const Mover& m);
 #endif

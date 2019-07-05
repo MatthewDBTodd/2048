@@ -26,7 +26,3 @@ Tile& Board::operator[](const int i) {
     }
     return board[i];
 }
-
-void move(std::vector<Tile>& board, const Mover& m) {
-    m.moveBoard(board); 
-}
