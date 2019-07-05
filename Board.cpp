@@ -12,3 +12,21 @@ std::ostream& operator<<(std::ostream& os, const Board& b) {
     }
     return os;
 }
+
+const Tile& Board::operator[](const int i) const {
+    if (i < 0 || i >= board.size()) {
+        throw std::exception();
+    }
+    return board[i];
+}
+
+Tile& Board::operator[](const int i) {
+    if (i < 0 || i >= board.size()) {
+        throw std::exception();
+    }
+    return board[i];
+}
+
+void move(std::vector<Tile>& board, const Mover& m) {
+    m.moveBoard(board); 
+}

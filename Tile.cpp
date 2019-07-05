@@ -5,13 +5,15 @@ void Tile::setValue(const int v) {
     val = (v < 0) ? 0 : v;
 }
 
-void Tile::move(Tile& dest) {
+bool Tile::move(Tile& dest) {
     if (dest == 0) {
         swap(*this, dest);
+        return true;
     } else if (*this == dest) {
         merge(*this, dest);
+        return false;
     } else {
-        return;
+        return false;
     }
 }
 

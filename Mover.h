@@ -1,32 +1,31 @@
 #ifndef MOVER_H
 #define MOVER_H
 
-#include <vector>
-#include "Tile.h"
+#include "Board.h"
 
 class Mover {
 public:
-    virtual void moveBoard(std::vector<Tile>& board) = 0;
+    virtual void moveBoard(Board& b) const = 0;
 };
 
 class Right : public Mover {
 public:
-    virtual void moveBoard(std::vector<Tile>& board) override;
+    virtual void moveBoard(Board& b) const override;
 };
 
 class Left : public Mover {
 public:
-    virtual void moveBoard(std::vector<Tile>& board) override;
+    virtual void moveBoard(Board& b) const override;
 };
 
 class Up : public Mover {
 public:
-    virtual void moveBoard(std::vector<Tile>& board) override;
+    virtual void moveBoard(Board& b) const override;
 };
 
 class Down : public Mover {
 public:
-    virtual void moveBoard(std::vector<Tile>& board) override;
+    virtual void moveBoard(Board& b) const override;
 };
 
 #endif

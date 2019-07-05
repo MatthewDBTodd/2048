@@ -69,10 +69,12 @@ TEST_CASE("merge() functon") {
 TEST_CASE("Test Tile::move()") {
     Tile t1;
     t1.setValue(2);
+    bool result;
 
     SECTION("Moving a tile in to an empty tile") {
         Tile t2;
-        t1.move(t2);
+        result = t1.move(t2);
+        REQUIRE(result);
         REQUIRE(t1.value() == 0);
         REQUIRE(t2.value() == 2);
     }
@@ -80,7 +82,8 @@ TEST_CASE("Test Tile::move()") {
     SECTION("Attempting to move a tile in to an occupied non-identical tile") {
         Tile t2;
         t2.setValue(4);
-        t1.move(t2);
+        result = t1.move(t2);
+        REQUIRE(!result);
         REQUIRE(t1.value() == 2);
         REQUIRE(t2.value() == 4);
     }
@@ -88,7 +91,8 @@ TEST_CASE("Test Tile::move()") {
     SECTION("Moving a tile which results in a merge") {
         Tile t2;
         t2.setValue(2);
-        t1.move(t2);
+        result = t1.move(t2);
+        REQUIRE(!result);
         REQUIRE(t2.value() == 4);
         REQUIRE(t1.value() == 0);
     }
