@@ -1,26 +1,12 @@
 #include <iostream>
 #include <memory>
+#include <ncurses.h>
 #include "Game.h"
-
-/* 
-void Game::setDisplay(Display* dd) {
-    display = dd;
-}
-*/
-
-/* 
-void Game::setInput(GameInput* gi) {
-    input = gi;
-}
-*/
 
 void Game::start() {
     board.placeRandomTile();
     board.placeRandomTile();
-    
-    // print board here
     display->draw(board);
-
     while (true) {
         char ch {input->input()};
         std::shared_ptr<Mover> m {factory.get(ch)};
@@ -28,12 +14,19 @@ void Game::start() {
             board.placeRandomTile();
         }
         board.resetTileStatus();
-
-        // print board here
         display->draw(board);
-
         if (board.isGameOver()) {
-            std::cout << "Game over\n";
+            initscr();
+            cbreak();
+            keypad(stdscr, TRUE);
+            noecho();
+            scrollok(stdscr, TRUE);
+            printw("Game Over\nPress F1 to quit\n");
+            while (true) {
+                int ch {getch()};
+                if (ch == KEY_F(1)) break;
+            }
+            endwin();
             break;
         }
     }

@@ -33,13 +33,13 @@ bool Board::isGameOver() {
         if (board[i] == 0) return false;
         switch (i) {
             case 3: case 7: case 11: {
-                if (board[i] == board[i+4]) return false;
+                if (board[i] == board[i+4]) {return false;} break;
             }
             case 12: case 13: case 14: {
-                if (board[i] == board[i+1]) return false;
+                if (board[i] == board[i+1]) {return false;} break;
             }
             default:
-                if (board[i] == board[i+1] || board[i] == board[i+4]) return false;
+                if (board[i] == board[i+1] || board[i] == board[i+4]) {return false;} break;
         }
     }
     return true;
