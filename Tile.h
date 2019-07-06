@@ -13,7 +13,6 @@ public:
     void setValue(const int v);
     int value() const { return val; }
     bool move(Tile& dest);
-    void zeroTile() { val = 0; }
     void resetMergeStatus() { merged = false; }
     bool hasMerged() const { return merged; }
     bool operator==(const Tile& t) const;

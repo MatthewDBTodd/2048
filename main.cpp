@@ -1,10 +1,9 @@
-#include <iostream>
-#include <memory>
-#include "Tile.h"
-#include "Board.h"
-#include "MoveFactory.h"
+#include "Game.h"
 
 int main() {
+    Game g;
+    g.start();
+    /*
     Board b;
     b.placeRandomTile();
     b.placeRandomTile();
@@ -25,4 +24,5 @@ int main() {
             break;
         }
     }
+    */
 }
