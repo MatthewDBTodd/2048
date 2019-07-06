@@ -14,6 +14,7 @@ public:
     int size() { return s; }
     bool isGameOver();
     void placeRandomTile();
+    void resetTileStatus();
     friend std::ostream& operator<<(std::ostream& os, const Board& b);
     const Tile& operator[](const std::size_t i) const;
     Tile& operator[](const std::size_t i); //

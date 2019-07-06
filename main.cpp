@@ -1,13 +1,28 @@
-#include <vector>
 #include <iostream>
+#include <memory>
 #include "Tile.h"
 #include "Board.h"
+#include "MoveFactory.h"
 
 int main() {
     Board b;
-    for (int i {1}; i < b.size(); ++i) {
-        b[i] = (i+1);
-    }
+    b.placeRandomTile();
+    b.placeRandomTile();
     std::cout << b;
-    return 0;
+    MoveFactory f;
+    while (true) {
+        std::cout << "Enter choice: ";
+        char c;
+        std::cin >> c;
+        std::shared_ptr<Mover> m {f.get(c)};
+        if (m->moveBoard(b)) {
+            b.placeRandomTile();
+        }
+        b.resetTileStatus();
+        std::cout << b;
+        if (b.isGameOver()) {
+            std::cout << "Game over\n";
+            break;
+        }
+    }
 }

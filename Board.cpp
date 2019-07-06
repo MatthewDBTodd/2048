@@ -64,3 +64,9 @@ int getRandomNum(std::size_t range) {
     std::uniform_int_distribution<std::mt19937::result_type> num(0, range);
     return num(rng);
 }
+
+void Board::resetTileStatus() {
+    for (auto& t : board) {
+        t.resetMergeStatus();
+    }
+}

@@ -442,3 +442,46 @@ TEST_CASE("Down") {
         REQUIRE(b[12] == 4);
     }
 }
+
+TEST_CASE("Test bool return value of moving functions") {
+    Board b;
+
+    SECTION("Single tile") {
+        Down d;
+        Left l;
+        Right r;
+        Up u;
+        b[12] = 2;
+        REQUIRE(!d.moveBoard(b));
+        REQUIRE(!l.moveBoard(b));
+        REQUIRE(r.moveBoard(b));
+        REQUIRE(u.moveBoard(b));
+        REQUIRE(!r.moveBoard(b));
+        REQUIRE(!u.moveBoard(b));
+    }
+
+    SECTION("Single merge") {
+        Right r;
+        for (int i {0}; i < b.size(); ++i) {
+            b[i] = i+1;
+        }
+        b[0] = 2;
+        b[1] = 2;
+        REQUIRE(r.moveBoard(b));
+    }
+
+    SECTION("Gridlocked board") {
+        Right r;
+        Left l;
+        Up u;
+        Down d;
+        for (int i {4}; i < b.size(); ++i) {
+            b[i] = i;
+        }
+        REQUIRE(!r.moveBoard(b));
+        REQUIRE(!l.moveBoard(b));
+        REQUIRE(!d.moveBoard(b));
+        u.moveBoard(b);
+        REQUIRE(!u.moveBoard(b));
+    }
+}

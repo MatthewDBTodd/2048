@@ -12,7 +12,7 @@ public:
     Tile(const int v) : val {v}, merged {false} {} // for deleting later
     void setValue(const int v);
     int value() const { return val; }
-    bool move(Tile& t2);
+    bool move(Tile& dest);
     void zeroTile() { val = 0; }
     void resetMergeStatus() { merged = false; }
     bool hasMerged() const { return merged; }

@@ -46,11 +46,11 @@ TEST_CASE("merge() functon") {
     }
 
     SECTION("Attempt legitimate merge") {
-        t1.setValue(2);
-        t2.setValue(2);
+        t1.setValue(4);
+        t2.setValue(4);
         merge(t1, t2);
         REQUIRE(t1.value() == 0);
-        REQUIRE(t2.value() == 4);
+        REQUIRE(t2.value() == 8);
     }
 
     SECTION("Attempt merge on already merged tile") {
@@ -92,8 +92,21 @@ TEST_CASE("Test Tile::move()") {
         Tile t2;
         t2.setValue(2);
         result = t1.move(t2);
-        REQUIRE(!result);
+        REQUIRE(result);
         REQUIRE(t2.value() == 4);
         REQUIRE(t1.value() == 0);
     }
+}
+
+TEST_CASE("Test that double merges do not happen") {
+    Tile t1, t2, t3;
+    t3 = 4;
+    t2 = 2;
+    t1 = 2;
+    t1.move(t2);
+    REQUIRE(t2.value() == 4);
+    REQUIRE(t1.value() == 0);
+    t2.move(t3);
+    REQUIRE(t2.value() == 4);
+    REQUIRE(t3.value() == 4);
 }

@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "../Board.h"
+#include "../Mover.h"
 
 TEST_CASE("Board::operator[]") {
     SECTION("Test const[]") {
@@ -110,5 +111,38 @@ TEST_CASE("Board::placeRandomTile()") {
             b[i] = (i+1);
         }
         REQUIRE_THROWS(b.placeRandomTile());
+    }
+}
+
+TEST_CASE("Board::resetTileStatus") {
+    Board b;
+    Down d;
+    for (int i {0}; i < b.size(); ++i) {
+        b[i] = 4;
+    }
+
+    SECTION("Sanity check - all tile statuses after merging set to true") {
+        d.moveBoard(b);
+        bool merged {true};
+        for (int i {8}; i < b.size(); ++i) {
+            if (!b[i].hasMerged()) {
+                merged = false;
+                break;
+            }
+        }
+        REQUIRE(merged);
+    }
+
+    SECTION("Resetting merge statuses after turn") {
+        d.moveBoard(b);
+        b.resetTileStatus();
+        bool merged {false};
+        for (int i {0}; i < b.size(); ++i) {
+            if (b[i].hasMerged()) {
+                merged = true;
+                break;
+            }
+        }
+        REQUIRE(!merged);
     }
 }

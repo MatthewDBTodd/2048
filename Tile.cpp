@@ -11,7 +11,7 @@ bool Tile::move(Tile& dest) {
         return true;
     } else if (*this == dest) {
         merge(*this, dest);
-        return false;
+        return true;
     } else {
         return false;
     }
@@ -53,7 +53,7 @@ void swap(Tile& t1, Tile& t2) {
 }
 
 void merge(Tile& origin, Tile& dest) {
-    if (origin != dest || dest.hasMerged()) return;
+    if (origin != dest || origin.hasMerged() || dest.hasMerged()) return;
     dest *= 2;
-    origin.zeroTile();
+    origin *= 0;
 }

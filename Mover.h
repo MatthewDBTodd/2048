@@ -5,27 +5,27 @@
 
 class Mover {
 public:
-    virtual void moveBoard(Board& b) const = 0;
+    virtual bool moveBoard(Board& b) const = 0;
 };
 
 class Right : public Mover {
 public:
-    virtual void moveBoard(Board& b) const override;
+    virtual bool moveBoard(Board& b) const override;
 };
 
 class Left : public Mover {
 public:
-    virtual void moveBoard(Board& b) const override;
+    virtual bool moveBoard(Board& b) const override;
 };
 
 class Up : public Mover {
 public:
-    virtual void moveBoard(Board& b) const override;
+    virtual bool moveBoard(Board& b) const override;
 };
 
 class Down : public Mover {
 public:
-    virtual void moveBoard(Board& b) const override;
+    virtual bool moveBoard(Board& b) const override;
 };
 
 #endif
