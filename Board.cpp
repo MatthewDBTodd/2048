@@ -2,31 +2,7 @@
 #include <random>
 #include "Board.h"
 
-std::ostream& operator<<(std::ostream& os, const Board& b) {
-    int count {0};
-    os << "\n\n";
-    for (const auto& tile : b.board) {
-        os << tile;
-        if (++count % 4 == 0) {
-            os << "\n\n\n";
-        }
-    }
-    return os;
-}
-
-const Tile& Board::operator[](const std::size_t i) const {
-    if (i < 0 || i >= board.size()) {
-        throw std::exception();
-    }
-    return board[i];
-}
-
-Tile& Board::operator[](const std::size_t i) {
-    if (i < 0 || i >= board.size()) {
-        throw std::exception();
-    }
-    return board[i];
-}
+Board::Board() : s{16}, board(s) {}
 
 bool Board::isGameOver() {
     for (std::size_t i {0}; i < board.size(); ++i) {
@@ -58,15 +34,41 @@ void Board::placeRandomTile() {
     emptyTiles[index]->setValue(randomVal);
 }
 
+void Board::resetTileStatus() {
+    for (auto& t : board) {
+        t.resetMergeStatus();
+    }
+}
+
+std::ostream& operator<<(std::ostream& os, const Board& b) {
+    int count {0};
+    os << "\n\n";
+    for (const auto& tile : b.board) {
+        os << tile;
+        if (++count % 4 == 0) {
+            os << "\n\n\n";
+        }
+    }
+    return os;
+}
+
+const Tile& Board::operator[](const std::size_t i) const {
+    if (i < 0 || i >= board.size()) {
+        throw std::exception();
+    }
+    return board[i];
+}
+
+Tile& Board::operator[](const std::size_t i) {
+    if (i < 0 || i >= board.size()) {
+        throw std::exception();
+    }
+    return board[i];
+}
+
 int getRandomNum(std::size_t range) {
     std::random_device d;
     std::mt19937 rng(d());
     std::uniform_int_distribution<std::mt19937::result_type> num(0, range);
     return num(rng);
-}
-
-void Board::resetTileStatus() {
-    for (auto& t : board) {
-        t.resetMergeStatus();
-    }
 }

@@ -8,8 +8,8 @@ private:
     int val;
     bool merged;
 public:
-    Tile() : val {0}, merged {false} {}
-    Tile(const int v) : val {v}, merged {false} {} // for deleting later
+    Tile();
+    Tile(const int v); // for deleting later?
     void setValue(const int v);
     int value() const { return val; }
     bool move(Tile& dest);

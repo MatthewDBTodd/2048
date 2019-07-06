@@ -21,12 +21,10 @@ private:
     ptr_d display;
     ptr_i input;
 public:
-    Game() : score {0}, numTurns {0}, display {new TerminalDisplay}, input {new PlayerInput} {}
-    Game(Display* dd) : score {0}, numTurns {0}, display {dd}, input {new PlayerInput} {}
-    Game(GameInput* gi) : score {0}, numTurns {0}, display {new TerminalDisplay}, input {gi} {}
-    Game(Display* dd, GameInput* gi) : score {0}, numTurns {0}, display {dd}, input {gi} {}
-    //void setDisplay(Display* dd);
-    //void setInput(GameInput* gi);
+    Game();
+    Game(Display* dd);
+    Game(GameInput* gi);
+    Game(Display* dd, GameInput* gi);
     void start();
 };
 

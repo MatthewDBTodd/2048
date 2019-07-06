@@ -5,8 +5,9 @@
 #include <memory>
 #include "Mover.h"
 
+using ptr = std::shared_ptr<Mover>;
+
 class MoveFactory {
-    using ptr = std::shared_ptr<Mover>;
 private:
     std::map<char, ptr> movers;
 public:

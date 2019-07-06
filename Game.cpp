@@ -3,6 +3,14 @@
 #include <ncurses.h>
 #include "Game.h"
 
+Game::Game() : score {0}, numTurns {0}, display {new TerminalDisplay}, input {new PlayerInput} {}
+
+Game::Game(Display* dd) : score {0}, numTurns {0}, display {dd}, input {new PlayerInput} {}
+
+Game::Game(GameInput* gi) : score {0}, numTurns {0}, display {new TerminalDisplay}, input {gi} {}
+
+Game::Game(Display* dd, GameInput* gi) : score {0}, numTurns {0}, display {dd}, input {gi} {}
+
 void Game::start() {
     board.placeRandomTile();
     board.placeRandomTile();
