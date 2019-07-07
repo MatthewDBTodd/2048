@@ -25,17 +25,7 @@ void TerminalDisplay::draw(const Board& b, const int score, const int turns) con
             move(y+4, 0);
         }
         if( b[i].value() == 0) {
-            printw("            ");
-            getyx(stdscr, y, x);
-            move(y+1, x-12);
-            printw("     -      ");
-            getyx(stdscr, y, x);
-            move(y+1, x-12);
-            printw("            ");
-            getyx(stdscr, y, x);
-            move(y-2, x);
-
-            refresh();
+            displayZeroTile();
             continue;
         }
         start_color();
@@ -91,6 +81,19 @@ void TerminalDisplay::displayColourTile(int colorVal, std::string val) const {
     printw("           ");
     attroff(COLOR_PAIR(colorVal));
     printw(" ");
+    getyx(stdscr, y, x);
+    move(y-2, x);
+}
+
+void TerminalDisplay::displayZeroTile() const {
+    int y, x;
+    printw("            ");
+    getyx(stdscr, y, x);
+    move(y+1, x-12);
+    printw("     -      ");
+    getyx(stdscr, y, x);
+    move(y+1, x-12);
+    printw("            ");
     getyx(stdscr, y, x);
     move(y-2, x);
 }

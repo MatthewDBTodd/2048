@@ -13,7 +13,7 @@ private:
     std::string setWidth(std::string val) const;
     void initColours() const;
     void displayColourTile(int colorVal, std::string val) const;
-    void displayZeroTile(std::string val) const;
+    void displayZeroTile() const;
 public:
     virtual void draw(const Board& b, const int score, const int turns) const override;
 };
