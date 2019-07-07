@@ -75,62 +75,22 @@ std::string TerminalDisplay::setWidth(std::string val) const {
 
 void TerminalDisplay::displayColourTile(int colorVal, std::string val) const {
     int y, x;
-
-    getyx(stdscr, y, x);
-
     attron(COLOR_PAIR(colorVal));
     printw("           ");
-
-    getyx(stdscr, y, x);
-
-    refresh();
-
-    getyx(stdscr, y, x);
-
     attroff(COLOR_PAIR(colorVal));
     printw(" ");
-
-    getyx(stdscr, y, x);
-
-    refresh();
-
     getyx(stdscr, y, x);
     move(y+1, x-12);
-
-    getyx(stdscr, y, x);
-
     attron(COLOR_PAIR(colorVal));
     printw("%s", val.c_str());
-
-    getyx(stdscr, y, x);
-
-    refresh();
-
     attroff(COLOR_PAIR(colorVal));
     printw(" ");
-
-    getyx(stdscr, y, x);
-
-    refresh();
-
     getyx(stdscr, y, x);
     move(y+1, x-12);
     attron(COLOR_PAIR(colorVal));
     printw("           ");
-
-    getyx(stdscr, y, x);
-    
-    refresh();
-
     attroff(COLOR_PAIR(colorVal));
     printw(" ");
-
-    getyx(stdscr, y, x);
-
-    refresh();
-
     getyx(stdscr, y, x);
     move(y-2, x);
-
-    refresh();
 }
