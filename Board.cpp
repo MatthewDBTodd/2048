@@ -2,7 +2,10 @@
 #include <random>
 #include "Board.h"
 
-Board::Board() : s{16}, board(s) {}
+Board::Board() : s{16}, board(s) {
+    placeRandomTile();
+    placeRandomTile();
+}
 
 bool Board::isGameOver() {
     for (std::size_t i {0}; i < board.size(); ++i) {
@@ -37,6 +40,12 @@ void Board::placeRandomTile() {
 void Board::resetTileStatus() {
     for (auto& t : board) {
         t.resetMergeStatus();
+    }
+}
+
+void Board::registerObserver(MergeListener* obs) {
+    for (auto& tile : board) {
+        tile.registerObserver(obs);
     }
 }
 

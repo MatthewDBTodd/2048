@@ -1,6 +1,8 @@
 #include <iomanip>
 #include "Tile.h"
 
+MergeListener* Tile::obs;
+
 Tile::Tile() : val {0}, merged {false} {}
 
 Tile::Tile(const int v) : val {v}, merged {false} {} // for deleting later?
@@ -13,12 +15,17 @@ bool Tile::move(Tile& dest) {
     if (dest == 0) {
         swap(*this, dest);
         return true;
-    } else if (*this == dest) {
+    } else if (*this == dest && !merged && !dest.merged) {
+        obs->notify(val*2);
         merge(*this, dest);
         return true;
     } else {
         return false;
     }
+}
+
+void Tile::registerObserver(MergeListener* o) {
+    obs = o;
 }
 
 bool Tile::operator==(const Tile& t) const {

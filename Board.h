@@ -4,6 +4,7 @@
 #include <vector>
 #include <ostream>
 #include "Tile.h"
+#include "MergeListener.h"
 
 class Board {
 private:
@@ -15,6 +16,7 @@ public:
     bool isGameOver();
     void placeRandomTile();
     void resetTileStatus();
+    void registerObserver(MergeListener* obs);
     friend std::ostream& operator<<(std::ostream& os, const Board& b);
     const Tile& operator[](const std::size_t i) const;
     Tile& operator[](const std::size_t i); 

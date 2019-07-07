@@ -9,7 +9,7 @@ char PlayerInput::input() const {
     keypad(stdscr, TRUE);
     noecho();
     scrollok(stdscr, TRUE);
-    printw("Enter move: ");
+    printw("      Enter move: ");
     while (true) {
         refresh();
         int ch {getch()};
@@ -29,10 +29,10 @@ char RandomInput::input() const {
     std::uniform_int_distribution<std::mt19937::result_type> num(1, 4);
     std::size_t n {num(rng)};
     switch (n) {
-        case 1: return 'u'; break;
-        case 2: return 'r'; break;
-        case 3: return 'd'; break;
-        case 4: return 'l'; break;
-        default: return 'd'; break;
+        case 1: clear(); refresh(); return 'u'; break;
+        case 2: clear(); refresh(); return 'r'; break;
+        case 3: clear(); refresh(); return 'd'; break;
+        case 4: clear(); refresh(); return 'l'; break;
+        default: clear(); refresh(); return 'd'; break;
     }
 }

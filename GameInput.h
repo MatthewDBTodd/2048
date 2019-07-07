@@ -11,6 +11,7 @@ public:
     virtual char input() const override;
 };
 
+// Mainly useful for testing end game conditions
 class RandomInput : public GameInput {
     public:
         virtual char input() const override;

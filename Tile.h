@@ -2,11 +2,13 @@
 #define TILE_H
 
 #include <ostream>
+#include "MergeListener.h"
 
 class Tile {
 private:
     int val;
     bool merged;
+    static MergeListener* obs;
 public:
     Tile();
     Tile(const int v); // for deleting later?
@@ -15,6 +17,7 @@ public:
     bool move(Tile& dest);
     void resetMergeStatus() { merged = false; }
     bool hasMerged() const { return merged; }
+    void registerObserver(MergeListener* o);
     bool operator==(const Tile& t) const;
     bool operator==(const int n) const;
     bool operator!=(const Tile& t) const;

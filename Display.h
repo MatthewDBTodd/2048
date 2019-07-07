@@ -5,12 +5,12 @@
 
 class Display {
 public:
-    virtual void draw(const Board& b) const = 0;
+    virtual void draw(const Board& b, const int score, const int turns) const = 0;
 };
 
 class TerminalDisplay : public Display {
 public:
-    virtual void draw(const Board& b) const override;
+    virtual void draw(const Board& b, const int score, const int turns) const override;
 };
 
 #endif
