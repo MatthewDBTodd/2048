@@ -18,14 +18,13 @@ void TerminalDisplay::draw(const Board& b, const int score, const int turns) con
     initscr();
     scrollok(stdscr, TRUE);
     printw("      Score: %i    Turn: %i\n\n", score, turns);
+    int x, y;
     for (int i {0}; i < b.size(); ++i) {
         if (i != 0 && i % 4 == 0) {
-            int y, x;
             getyx(stdscr, y, x);
             move(y+4, 0);
         }
         if( b[i].value() == 0) {
-            int x, y;
             printw("            ");
             getyx(stdscr, y, x);
             move(y+1, x-12);
@@ -35,56 +34,103 @@ void TerminalDisplay::draw(const Board& b, const int score, const int turns) con
             printw("            ");
             getyx(stdscr, y, x);
             move(y-2, x);
+
+            refresh();
             continue;
         }
         start_color();
-        init_pair(YELLOW, COLOR_BLACK, COLOR_YELLOW);
-        init_pair(GREEN, COLOR_BLACK, COLOR_GREEN);
-        init_pair(BLUE, COLOR_WHITE, COLOR_BLUE);
-        init_pair(MAGENTA, COLOR_WHITE, COLOR_MAGENTA);
-        init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
-        init_pair(RED, COLOR_WHITE, COLOR_RED);
+        initColours();
         int logged {static_cast<int>(log2(b[i].value()))};
         int colorVal {(logged % 6) + 1};
-        attron(COLOR_PAIR(colorVal));
-        printw("           ");
-        attroff(COLOR_PAIR(colorVal));
-        printw(" ");
-        int y, x;
-        getyx(stdscr, y, x);
-        move(y+1, x-12);
-        attron(COLOR_PAIR(colorVal));
-        printw("%s", setWidth(b[i].value()));
-        attroff(COLOR_PAIR(colorVal));
-        printw(" ");
-        getyx(stdscr, y, x);
-        move(y+1, x-12);
-        attron(COLOR_PAIR(colorVal));
-        printw("           ");
-        attroff(COLOR_PAIR(colorVal));
-        printw(" ");
-
-        getyx(stdscr, y, x);
-        move(y-2, x);
+        std::string o {setWidth(std::to_string(b[i].value()))};
+        displayColourTile(colorVal, o);
     }
-    int y, x;
     getyx(stdscr, y, x);
     move(y+4, 0);
     refresh();
 }
 
-const char* setWidth(int val) {
-    constexpr int strLength {11};
-    std::string str {std::to_string(val)};
-    std::size_t numLength {str.length()};
-    str = "";
+void TerminalDisplay::initColours() const {
+    init_pair(YELLOW, COLOR_BLACK, COLOR_YELLOW);
+    init_pair(GREEN, COLOR_BLACK, COLOR_GREEN);
+    init_pair(BLUE, COLOR_WHITE, COLOR_BLUE);
+    init_pair(MAGENTA, COLOR_WHITE, COLOR_MAGENTA);
+    init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
+    init_pair(RED, COLOR_WHITE, COLOR_RED);
+}
+
+std::string TerminalDisplay::setWidth(std::string val) const {
+    std::size_t valLength {val.length()};
+    std::string output {}; 
     std::size_t i {0};
-    for (; i < ((strLength - numLength)/2); ++i) {
-        str.push_back(' ');
+    for (; i < ((tileWidth - valLength) / 2); ++i) {
+        output.push_back(' ');
     }
-    str += std::to_string(val);
-    for (i = str.length(); i < strLength; ++i) {
-        str.push_back(' ');
+    output += val;
+    for (i = output.length(); i < tileWidth; ++i) {
+        output.push_back(' ');
     }
-    return str.c_str();
+    return output;
+}
+
+void TerminalDisplay::displayColourTile(int colorVal, std::string val) const {
+    int y, x;
+
+    getyx(stdscr, y, x);
+
+    attron(COLOR_PAIR(colorVal));
+    printw("           ");
+
+    getyx(stdscr, y, x);
+
+    refresh();
+
+    getyx(stdscr, y, x);
+
+    attroff(COLOR_PAIR(colorVal));
+    printw(" ");
+
+    getyx(stdscr, y, x);
+
+    refresh();
+
+    getyx(stdscr, y, x);
+    move(y+1, x-12);
+
+    getyx(stdscr, y, x);
+
+    attron(COLOR_PAIR(colorVal));
+    printw("%s", val.c_str());
+
+    getyx(stdscr, y, x);
+
+    refresh();
+
+    attroff(COLOR_PAIR(colorVal));
+    printw(" ");
+
+    getyx(stdscr, y, x);
+
+    refresh();
+
+    getyx(stdscr, y, x);
+    move(y+1, x-12);
+    attron(COLOR_PAIR(colorVal));
+    printw("           ");
+
+    getyx(stdscr, y, x);
+    
+    refresh();
+
+    attroff(COLOR_PAIR(colorVal));
+    printw(" ");
+
+    getyx(stdscr, y, x);
+
+    refresh();
+
+    getyx(stdscr, y, x);
+    move(y-2, x);
+
+    refresh();
 }
