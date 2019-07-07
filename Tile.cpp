@@ -54,25 +54,6 @@ Tile& Tile::operator*=(const int n) {
     return *this;
 }
 
-std::ostream& operator<<(std::ostream& os, const Tile& t) {
-    if (t.val) {
-        return os << std::setw(7) << t.val; 
-    } else {
-        return os << std::setw(7) << "-";
-    }
-}
-
-void Tile::display() const {
-    initscr();
-    start_color();
-    init_pair(1, COLOR_BLACK, COLOR_RED);
-    attron(COLOR_PAIR(1));
-    printw("   %i   ", val);
-    attroff(COLOR_PAIR(1));
-    refresh();
-    //endwin();
-}
-
 void swap(Tile& t1, Tile& t2) {
     if (t1.value() && t2.value()) return;
     Tile temp = t1;

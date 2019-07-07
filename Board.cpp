@@ -47,20 +47,6 @@ void Board::registerObserver(MergeListener* obs) {
     Tile::registerObserver(obs);
 }
 
-std::ostream& operator<<(std::ostream& os, const Board& b) {
-    int count {0};
-    os << "\n\n";
-    for (const auto& tile : b.board) {
-        tile.display();
-        std::cout << " ";
-        //os << tile;
-        if (++count % 4 == 0) {
-            os << "\n\n\n";
-        }
-    }
-    return os;
-}
-
 const Tile& Board::operator[](const std::size_t i) const {
     if (i < 0 || i >= board.size()) {
         throw std::exception();

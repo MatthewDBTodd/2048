@@ -22,8 +22,6 @@ public:
     bool operator==(const int n) const;
     bool operator!=(const Tile& t) const;
     Tile& operator*=(const int n);
-    friend std::ostream& operator<<(std::ostream& os, const Tile& t);
-    void display() const;
 };
 
 void swap(Tile& t1, Tile& t2);
