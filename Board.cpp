@@ -44,9 +44,7 @@ void Board::resetTileStatus() {
 }
 
 void Board::registerObserver(MergeListener* obs) {
-    for (auto& tile : board) {
-        tile.registerObserver(obs);
-    }
+    Tile::registerObserver(obs);
 }
 
 std::ostream& operator<<(std::ostream& os, const Board& b) {

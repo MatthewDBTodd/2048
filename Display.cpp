@@ -17,12 +17,13 @@ const char* setWidth(int val);
 void TerminalDisplay::draw(const Board& b, const int score, const int turns) const {
     initscr();
     scrollok(stdscr, TRUE);
-    printw("      Score: %i    Turn: %i\n\n", score, turns);
+    printw("      Score: %i    Turn: %i", score, turns);
+    move(3, 6);
     int x, y;
     for (int i {0}; i < b.size(); ++i) {
         if (i != 0 && i % 4 == 0) {
             getyx(stdscr, y, x);
-            move(y+4, 0);
+            move(y+4, 6);
         }
         if( b[i].value() == 0) {
             displayZeroTile();
@@ -36,7 +37,7 @@ void TerminalDisplay::draw(const Board& b, const int score, const int turns) con
         displayColourTile(colorVal, o);
     }
     getyx(stdscr, y, x);
-    move(y+4, 0);
+    move(y+4, 6);
     refresh();
 }
 

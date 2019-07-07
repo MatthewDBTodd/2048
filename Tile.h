@@ -16,7 +16,7 @@ public:
     bool move(Tile& dest);
     void resetMergeStatus() { merged = false; }
     bool hasMerged() const { return merged; }
-    void registerObserver(MergeListener* o);
+    static void registerObserver(MergeListener* o);
     void notifyAll(const int n) const;
     bool operator==(const Tile& t) const;
     bool operator==(const int n) const;
