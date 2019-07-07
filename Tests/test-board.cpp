@@ -1,4 +1,5 @@
 #include "catch.hpp"
+#include <ncurses.h>
 #include "../Board.h"
 #include "../Mover.h"
 

@@ -1,8 +1,9 @@
 #include <ncurses.h>
 #include <iomanip>
+#include <vector>
 #include "Tile.h"
 
-MergeListener* Tile::obs;
+std::vector<MergeListener*> Tile::obs;
 
 Tile::Tile() : val {0}, merged {false} {}
 
@@ -17,7 +18,7 @@ bool Tile::move(Tile& dest) {
         swap(*this, dest);
         return true;
     } else if (*this == dest && !merged && !dest.merged) {
-        obs->notify(val*2);
+        notifyAll(val * 2);
         merge(*this, dest);
         return true;
     } else {
@@ -26,7 +27,13 @@ bool Tile::move(Tile& dest) {
 }
 
 void Tile::registerObserver(MergeListener* o) {
-    obs = o;
+    obs.push_back(o);
+}
+
+void Tile::notifyAll(const int n) const {
+    for (const auto& o : obs) {
+        o->notify(n);
+    }
 }
 
 bool Tile::operator==(const Tile& t) const {
