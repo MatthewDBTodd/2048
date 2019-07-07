@@ -1,6 +1,6 @@
 #include "Game.h"
 
 int main() {
-    Game g(new RandomInput);
+    Game g;
     g.start();
 }

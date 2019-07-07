@@ -12,11 +12,12 @@ private:
     std::vector<Tile> board;
 public:
     Board();
-    int size() { return s; }
+    int size() const { return s; }
     bool isGameOver();
     void placeRandomTile();
     void resetTileStatus();
     void registerObserver(MergeListener* obs);
+    void display() const;
     friend std::ostream& operator<<(std::ostream& os, const Board& b);
     const Tile& operator[](const std::size_t i) const;
     Tile& operator[](const std::size_t i); 

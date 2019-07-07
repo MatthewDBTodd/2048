@@ -1,3 +1,4 @@
+#include <ncurses.h>
 #include <iomanip>
 #include "Tile.h"
 
@@ -52,6 +53,17 @@ std::ostream& operator<<(std::ostream& os, const Tile& t) {
     } else {
         return os << std::setw(7) << "-";
     }
+}
+
+void Tile::display() const {
+    initscr();
+    start_color();
+    init_pair(1, COLOR_BLACK, COLOR_RED);
+    attron(COLOR_PAIR(1));
+    printw("   %i   ", val);
+    attroff(COLOR_PAIR(1));
+    refresh();
+    //endwin();
 }
 
 void swap(Tile& t1, Tile& t2) {
