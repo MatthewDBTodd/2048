@@ -13,6 +13,7 @@
 #define CYAN 6
 
 const char* setWidth(int val);
+const char* TerminalDisplay::verticalPadding {"           "};
 
 void TerminalDisplay::draw(const Board& b, const int score, const int turns) const {
     initscr();
@@ -20,17 +21,17 @@ void TerminalDisplay::draw(const Board& b, const int score, const int turns) con
     printw("      Score: %i    Turn: %i", score, turns);
     move(3, 6);
     int x, y;
+    start_color();
+    initColours();
     for (int i {0}; i < b.size(); ++i) {
         if (i != 0 && i % 4 == 0) {
             getyx(stdscr, y, x);
-            move(y+4, 6);
+            move(y+tileHeight, 6);
         }
         if( b[i].value() == 0) {
             displayZeroTile();
             continue;
         }
-        start_color();
-        initColours();
         int logged {static_cast<int>(log2(b[i].value()))};
         int colorVal {(logged % 6) + 1};
         std::string o {setWidth(std::to_string(b[i].value()))};
@@ -67,34 +68,27 @@ std::string TerminalDisplay::setWidth(std::string val) const {
 void TerminalDisplay::displayColourTile(int colorVal, std::string val) const {
     int y, x;
     attron(COLOR_PAIR(colorVal));
-    printw("           ");
-    attroff(COLOR_PAIR(colorVal));
-    printw(" ");
+    printw("%s", verticalPadding);
     getyx(stdscr, y, x);
-    move(y+1, x-12);
-    attron(COLOR_PAIR(colorVal));
+    move(y+1, x-tileWidth);
     printw("%s", val.c_str());
-    attroff(COLOR_PAIR(colorVal));
-    printw(" ");
     getyx(stdscr, y, x);
-    move(y+1, x-12);
-    attron(COLOR_PAIR(colorVal));
-    printw("           ");
-    attroff(COLOR_PAIR(colorVal));
-    printw(" ");
+    move(y+1, x-tileWidth);
+    printw("%s", verticalPadding);
     getyx(stdscr, y, x);
-    move(y-2, x);
+    move(y-(tileHeight - 1), x);
+    attroff(COLOR_PAIR(colorVal));
 }
 
 void TerminalDisplay::displayZeroTile() const {
     int y, x;
-    printw("            ");
+    printw("%s", verticalPadding);
     getyx(stdscr, y, x);
-    move(y+1, x-12);
-    printw("     -      ");
+    move(y+1, x-tileWidth);
+    printw("     -     ");
     getyx(stdscr, y, x);
-    move(y+1, x-12);
-    printw("            ");
+    move(y+1, x-tileWidth);
+    printw("%s", verticalPadding);
     getyx(stdscr, y, x);
-    move(y-2, x);
+    move(y-(tileHeight - 1), x);
 }
