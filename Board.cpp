@@ -1,6 +1,6 @@
 #include <iostream>
-#include <random>
 #include "Board.h"
+#include "randomNum.h"
 
 Board::Board() : s{16}, board(s) {}
 
@@ -56,11 +56,4 @@ Tile& Board::operator[](const std::size_t i) {
         throw std::exception();
     }
     return board[i];
-}
-
-int getRandomNum(std::size_t range) {
-    std::random_device d;
-    std::mt19937 rng(d());
-    std::uniform_int_distribution<std::mt19937::result_type> num(0, range);
-    return num(rng);
 }

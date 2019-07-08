@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <random>
 #include "GameInput.h"
+#include "randomNum.h"
 
 char PlayerInput::input() const {
     initscr();
@@ -24,15 +25,13 @@ char PlayerInput::input() const {
 }
 
 char RandomInput::input() const {
-    std::random_device d;
-    std::mt19937 rng(d());
-    std::uniform_int_distribution<std::mt19937::result_type> num(1, 4);
-    std::size_t n {num(rng)};
+    std::size_t n {4};
+    n = getRandomNum(n);
     switch (n) {
-        case 1: clear(); refresh(); return 'u'; break;
-        case 2: clear(); refresh(); return 'r'; break;
-        case 3: clear(); refresh(); return 'd'; break;
-        case 4: clear(); refresh(); return 'l'; break;
+        case 0: clear(); refresh(); return 'u'; break;
+        case 1: clear(); refresh(); return 'r'; break;
+        case 2: clear(); refresh(); return 'd'; break;
+        case 3: clear(); refresh(); return 'l'; break;
         default: clear(); refresh(); return 'd'; break;
     }
 }

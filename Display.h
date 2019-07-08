@@ -12,7 +12,6 @@ private:
     static constexpr int tileHeight {7};
     static constexpr int horizontalMargin {6};
     static constexpr int numColours {6};
-    static const char* verticalPadding;
     std::string setWidth(std::string val) const;
     void displayTile(std::string val) const;
 public:

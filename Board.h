@@ -17,7 +17,6 @@ public:
     void placeRandomTile();
     void resetTileStatus();
     void registerObserver(MergeListener* obs);
-    void display() const;
     const Tile& operator[](const std::size_t i) const;
     Tile& operator[](const std::size_t i); 
 };
