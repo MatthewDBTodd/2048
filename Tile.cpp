@@ -55,7 +55,7 @@ Tile& Tile::operator*=(const int n) {
 }
 
 void swap(Tile& t1, Tile& t2) {
-    if (t1.value() && t2.value()) return;
+    if (t1 != 0 && t2 != 0) return;
     Tile temp = t1;
     t1 = t2;
     t2 = temp;

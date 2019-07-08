@@ -6,18 +6,18 @@
 TEST_CASE("Board::operator[]") {
     SECTION("Test const[]") {
         const Board b;
-        REQUIRE(b[0].value() == 0);
+        REQUIRE(b[0] == 0);
         REQUIRE_THROWS(b[-1]);
         REQUIRE_THROWS(b[16]);
     }
 
     SECTION("Test non const[]") {
         Board b;
-        REQUIRE(b[0].value() == 0);
+        REQUIRE(b[0] == 0);
         Tile t;
         t.setValue(16);
         b[0] = t;
-        REQUIRE(b[0].value() == 16);
+        REQUIRE(b[0] == 16);
         REQUIRE_THROWS(b[-1]);
         REQUIRE_THROWS(b[16]);
     }

@@ -13,9 +13,9 @@ TEST_CASE("Right") {
         r.moveBoard(b);
         for (int i {0}; i < b.size(); ++i) {
             if ((i + 1) % 4 != 0) {
-                REQUIRE(b[i].value() == 0);
+                REQUIRE(b[i] == 0);
             } else {
-                REQUIRE(b[i].value() == 2);
+                REQUIRE(b[i] == 2);
             }
         }
     }
@@ -28,9 +28,9 @@ TEST_CASE("Right") {
         r.moveBoard(b);
         for (int i {0}; i < b.size(); ++i) {
             if ((i + 1) % 4 != 0) {
-                REQUIRE(b[i].value() == 0);
+                REQUIRE(b[i] == 0);
             } else {
-                REQUIRE(b[i].value() == 2);
+                REQUIRE(b[i] == 2);
             }
         }
     }
