@@ -85,7 +85,9 @@ void TerminalDisplay::displayZeroTile() const {
     printw("%s", verticalPadding);
     getyx(stdscr, y, x);
     move(y+1, x-tileWidth);
-    printw("     -     ");
+    std::string val {"-"};
+    val = setWidth(val);
+    printw("%s", val.c_str());
     getyx(stdscr, y, x);
     move(y+1, x-tileWidth);
     printw("%s", verticalPadding);
