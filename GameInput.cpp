@@ -9,7 +9,7 @@ char PlayerInput::input() const {
     keypad(stdscr, TRUE);
     noecho();
     scrollok(stdscr, TRUE);
-    printw("      Enter move: ");
+    printw("Enter move: ");
     while (true) {
         refresh();
         int ch {getch()};

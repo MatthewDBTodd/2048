@@ -13,6 +13,8 @@ Game::Game(Display* dd, GameInput* gi) : score {0}, numTurns {0}, display {dd}, 
 
 void Game::start() {
     board.registerObserver(this);
+    board.placeRandomTile();
+    board.placeRandomTile();
     display->draw(board, score, numTurns);
     while (true) {
         char ch {input->input()};
@@ -36,7 +38,7 @@ void Game::end() {
     keypad(stdscr, TRUE);
     noecho();
     scrollok(stdscr, TRUE);
-    printw("Game Over\nPress F1 to quit\n");
+    printw("Game Over\n      Press F1 to quit\n");
     while (true) {
         int ch {getch()};
         if (ch == KEY_F(1)) break;

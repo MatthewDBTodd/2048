@@ -2,10 +2,7 @@
 #include <random>
 #include "Board.h"
 
-Board::Board() : s{16}, board(s) {
-    placeRandomTile();
-    placeRandomTile();
-}
+Board::Board() : s{16}, board(s) {}
 
 bool Board::isGameOver() {
     for (std::size_t i {0}; i < board.size(); ++i) {
