@@ -8,13 +8,13 @@ public:
 
 class TerminalDisplay : public Display {
 private:
-    static constexpr int tileWidth {11};
-    static constexpr int tileHeight {3};
+    static constexpr int tileWidth {15};
+    static constexpr int tileHeight {7};
+    static constexpr int horizontalMargin {6};
+    static constexpr int numColours {6};
     static const char* verticalPadding;
     std::string setWidth(std::string val) const;
-    void initColours() const;
-    void displayColourTile(int colorVal, std::string val) const;
-    void displayZeroTile() const;
+    void displayTile(std::string val) const;
 public:
     virtual void draw(const Board& b, const int score, const int turns) const override;
 };

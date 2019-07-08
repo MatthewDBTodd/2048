@@ -1,9 +1,7 @@
 #include <ncurses.h>
-#include <sstream>
+#include <cmath>
 #include "Board.h"
 #include "Display.h"
-#include <cstring>
-#include <cmath>
 
 #define RED 1
 #define YELLOW 2
@@ -13,42 +11,35 @@
 #define CYAN 6
 
 const char* setWidth(int val);
-const char* TerminalDisplay::verticalPadding {"           "};
+void init();
+void initColours();
+void printVerticalPadding(int tileWidth, int rows);
 
 void TerminalDisplay::draw(const Board& b, const int score, const int turns) const {
-    initscr();
-    scrollok(stdscr, TRUE);
+    init();
     printw("      Score: %i    Turn: %i", score, turns);
-    move(3, 6);
+    move(3, horizontalMargin);
     int x, y;
-    start_color();
-    initColours();
     for (int i {0}; i < b.size(); ++i) {
         if (i != 0 && i % 4 == 0) {
             getyx(stdscr, y, x);
-            move(y+tileHeight, 6);
+            move(y+tileHeight, horizontalMargin);
         }
         if( b[i].value() == 0) {
-            displayZeroTile();
+            std::string val {"-"};
+            displayTile(setWidth(val));
             continue;
         }
-        int logged {static_cast<int>(log2(b[i].value()))};
-        int colorVal {(logged % 6) + 1};
-        std::string o {setWidth(std::to_string(b[i].value()))};
-        displayColourTile(colorVal, o);
+        int log {static_cast<int>(log2(b[i].value()))};
+        int colorVal {(log % numColours) + 1};
+        std::string val {setWidth(std::to_string(b[i].value()))};
+        attron(COLOR_PAIR(colorVal));
+        displayTile(val);
+        attroff(COLOR_PAIR(colorVal));
     }
     getyx(stdscr, y, x);
-    move(y+4, 6);
+    move(y+(tileHeight+2), horizontalMargin);
     refresh();
-}
-
-void TerminalDisplay::initColours() const {
-    init_pair(YELLOW, COLOR_BLACK, COLOR_YELLOW);
-    init_pair(GREEN, COLOR_BLACK, COLOR_GREEN);
-    init_pair(BLUE, COLOR_WHITE, COLOR_BLUE);
-    init_pair(MAGENTA, COLOR_WHITE, COLOR_MAGENTA);
-    init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
-    init_pair(RED, COLOR_WHITE, COLOR_RED);
 }
 
 std::string TerminalDisplay::setWidth(std::string val) const {
@@ -65,32 +56,40 @@ std::string TerminalDisplay::setWidth(std::string val) const {
     return output;
 }
 
-void TerminalDisplay::displayColourTile(int colorVal, std::string val) const {
+void TerminalDisplay::displayTile(std::string val) const {
     int y, x;
-    attron(COLOR_PAIR(colorVal));
-    printw("%s", verticalPadding);
-    getyx(stdscr, y, x);
-    move(y+1, x-tileWidth);
+    printVerticalPadding(tileWidth, ((tileHeight-1)/2));
     printw("%s", val.c_str());
     getyx(stdscr, y, x);
     move(y+1, x-tileWidth);
-    printw("%s", verticalPadding);
+    printVerticalPadding(tileWidth, ((tileHeight-1)/2));
     getyx(stdscr, y, x);
-    move(y-(tileHeight - 1), x);
-    attroff(COLOR_PAIR(colorVal));
+    move(y-tileHeight, x+tileWidth);
 }
 
-void TerminalDisplay::displayZeroTile() const {
-    int y, x;
-    printw("%s", verticalPadding);
-    getyx(stdscr, y, x);
-    move(y+1, x-tileWidth);
-    std::string val {"-"};
-    val = setWidth(val);
-    printw("%s", val.c_str());
-    getyx(stdscr, y, x);
-    move(y+1, x-tileWidth);
-    printw("%s", verticalPadding);
-    getyx(stdscr, y, x);
-    move(y-(tileHeight - 1), x);
+void initColours() {
+    init_pair(YELLOW, COLOR_BLACK, COLOR_YELLOW);
+    init_pair(GREEN, COLOR_BLACK, COLOR_GREEN);
+    init_pair(BLUE, COLOR_WHITE, COLOR_BLUE);
+    init_pair(MAGENTA, COLOR_WHITE, COLOR_MAGENTA);
+    init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
+    init_pair(RED, COLOR_WHITE, COLOR_RED);
+}
+
+void init() {
+    initscr();
+    scrollok(stdscr, TRUE);
+    start_color();
+    initColours();
+}
+
+void printVerticalPadding(int tileWidth, int rows) {
+    for (int i {0}; i < rows; ++i) {
+        for (int j {0}; j < tileWidth; ++j) {
+            addch(' ');
+        }
+        int y, x;
+        getyx(stdscr, y, x);
+        move(y+1, x-tileWidth);
+    }
 }
