@@ -28,10 +28,17 @@ char RandomInput::input() const {
     std::size_t n {4};
     n = getRandomNum(n);
     switch (n) {
-        case 0: clear(); refresh(); return 'u'; break;
-        case 1: clear(); refresh(); return 'r'; break;
-        case 2: clear(); refresh(); return 'd'; break;
-        case 3: clear(); refresh(); return 'l'; break;
-        default: clear(); refresh(); return 'd'; break;
+        case 0: return 'u'; break;
+        case 1: return 'r'; break;
+        case 2: return 'd'; break;
+        case 3: return 'l'; break;
+        default: return 'd'; break;
     }
 }
+/* 
+AIinput::AIinput() : gameBoard {nullptr} {}
+
+void AIinput::assignBoard(Board* b) {
+    gameBoard = b;
+}
+*/

@@ -1,30 +1,20 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include "MergeListener.h"
-
 class Tile {
-private:
-    int val;
-    bool merged;
-    static std::vector<MergeListener*> obs;
 public:
     Tile();
-    Tile(const int v); // for deleting later?
-    void setValue(const int v);
     int value() const { return val; }
-    bool move(Tile& dest);
-    void resetMergeStatus() { merged = false; }
-    bool hasMerged() const { return merged; }
-    static void registerObserver(MergeListener* o);
-    void notifyAll(const int n) const;
+    void setValue(const int v);
+    void lock() { locked = true; }
+    void unlock() { locked = false; }
+    bool isUnlocked() const { return !locked; }
     bool operator==(const Tile& t) const;
     bool operator==(const int n) const;
     bool operator!=(const Tile& t) const;
-    Tile& operator*=(const int n);
+private:
+    int val;
+    bool locked;
 };
-
-void swap(Tile& t1, Tile& t2);
-void merge(Tile& origin, Tile& dest);
 
 #endif

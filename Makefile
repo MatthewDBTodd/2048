@@ -14,8 +14,8 @@ runTests: Tests/test-board Tests/test-tile Tests/test-mover Tests/test-factory
 	./test-mover
 	./test-factory
 
-2048: Game.o Board.o GameInput.o main.o MoveFactory.o Mover.o Tile.o Display.o randomNum.o 
-	g++ $(CPPFLAGS) Game.o Board.o GameInput.o main.o MoveFactory.o Mover.o Tile.o Display.o randomNum.o -o 2048 -lncurses
+2048: Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o 
+	g++ $(CPPFLAGS) Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o -o 2048 -lncurses
 
 Game.o: Game.cpp Game.h
 	g++ $(CPPFLAGS) -c Game.cpp
@@ -26,14 +26,8 @@ GameInput.o: GameInput.cpp GameInput.h
 Board.o: Board.cpp Board.h
 	g++ $(CPPFLAGS) -c Board.cpp
 
-MoveFactory.o: MoveFactory.cpp MoveFactory.h
-	g++ $(CPPFLAGS) -c MoveFactory.cpp
-
 Display.o: Display.cpp Display.h
 	g++ $(CPPFLAGS) -c Display.cpp -lncurses
-
-Mover.o: Mover.cpp Mover.h
-	g++ $(CPPFLAGS) -c Mover.cpp
 
 Tile.o: Tile.cpp Tile.h
 	g++ $(CPPFLAGS) -c Tile.cpp

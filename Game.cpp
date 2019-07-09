@@ -1,51 +1,29 @@
-#include <iostream>
-#include <memory>
-#include <ncurses.h>
 #include "Game.h"
+#include "Display.h"
+#include "GameInput.h"
 
-Game::Game() : score {0}, numTurns {0}, display {new TerminalDisplay}, input {new PlayerInput} {}
+Game::Game() : display {new TerminalDisplay}, input {new PlayerInput} {}
 
-Game::Game(Display* dd) : score {0}, numTurns {0}, display {dd}, input {new PlayerInput} {}
+Game::Game(Display* dd) : display {dd}, input {new PlayerInput} {}
 
-Game::Game(GameInput* gi) : score {0}, numTurns {0}, display {new TerminalDisplay}, input {gi} {}
+Game::Game(GameInput* gi) : display {new TerminalDisplay}, input {gi} {}
 
-Game::Game(Display* dd, GameInput* gi) : score {0}, numTurns {0}, display {dd}, input {gi} {}
+Game::Game(Display* dd, GameInput* gi) : display {dd}, input {gi} {}
 
 void Game::start() {
-    board.registerObserver(this);
     board.placeRandomTile();
     board.placeRandomTile();
-    display->draw(board, score, numTurns);
+    display->draw(board);
     while (true) {
         char ch {input->input()};
-        std::shared_ptr<Mover> m {factory.get(ch)};
-        if (m->moveBoard(board)) {
-            ++numTurns;
+        if (board.moveBoard(ch)) {
             board.placeRandomTile();
         }
-        board.resetTileStatus();
-        display->draw(board, score, numTurns);
+        board.unlockTiles();
+        display->draw(board);
         if (board.isGameOver()) {
-            end();
+            display->gameOver(board);
             break;
         }
     }
-}
-
-void Game::end() {
-    initscr();
-    cbreak();
-    keypad(stdscr, TRUE);
-    noecho();
-    scrollok(stdscr, TRUE);
-    printw("Game Over\n      Press F1 to quit\n");
-    while (true) {
-        int ch {getch()};
-        if (ch == KEY_F(1)) break;
-    }
-    endwin();
-}
-
-void Game::notify(const int value) {
-    score += value;
 }

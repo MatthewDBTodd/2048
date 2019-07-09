@@ -10,29 +10,29 @@
 #define MAGENTA 5
 #define CYAN 6
 
-const char* setWidth(int val);
+const char* prepareString(int val);
 void init();
 void initColours();
 void printVerticalPadding(int tileWidth, int rows);
 
-void TerminalDisplay::draw(const Board& b, const int score, const int turns) const {
+void TerminalDisplay::draw(const Board& b) const {
     init();
-    printw("      Score: %i    Turn: %i", score, turns);
+    printw("      Score: %i    Turn: %i", b.score(), b.turn());
     move(3, horizontalMargin);
     int x, y;
-    for (int i {0}; i < b.size(); ++i) {
+    for (int i {0}; i < size; ++i) {
         if (i != 0 && i % 4 == 0) {
             getyx(stdscr, y, x);
             move(y+tileHeight, horizontalMargin);
         }
-        if( b[i].value() == 0) {
+        if( b[i] == 0) {
             std::string val {"-"};
-            displayTile(setWidth(val));
+            displayTile(prepareString(val));
             continue;
         }
-        int log {static_cast<int>(log2(b[i].value()))};
+        int log {static_cast<int>(log2(b[i]))};
         int colorVal {(log % numColours) + 1};
-        std::string val {setWidth(std::to_string(b[i].value()))};
+        std::string val {prepareString(std::to_string(b[i]))};
         attron(COLOR_PAIR(colorVal));
         displayTile(val);
         attroff(COLOR_PAIR(colorVal));
@@ -42,7 +42,7 @@ void TerminalDisplay::draw(const Board& b, const int score, const int turns) con
     refresh();
 }
 
-std::string TerminalDisplay::setWidth(std::string val) const {
+std::string TerminalDisplay::prepareString(std::string val) const {
     std::size_t valLength {val.length()};
     std::string output {}; 
     std::size_t i {0};
@@ -92,4 +92,23 @@ void printVerticalPadding(int tileWidth, int rows) {
         getyx(stdscr, y, x);
         move(y+1, x-tileWidth);
     }
+}
+
+void TerminalDisplay::gameOver(const Board& b) const {
+    initscr();
+    cbreak();
+    keypad(stdscr, TRUE);
+    noecho();
+    scrollok(stdscr, TRUE);
+    move((tileHeight*4)+4, horizontalMargin);
+    printw("Game Over");
+    int y, x;
+    getyx(stdscr, y, x);
+    move(y+2, horizontalMargin);
+    printw("Press F1 to quit\n");
+    while (true) {
+        int ch {getch()};
+        if (ch == KEY_F(1)) break;
+    }
+    endwin();
 }
