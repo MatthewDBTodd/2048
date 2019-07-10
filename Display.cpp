@@ -9,6 +9,7 @@
 #define BLUE 4
 #define MAGENTA 5
 #define CYAN 6
+#define WHITE 7
 
 const char* prepareString(int val);
 void init();
@@ -17,8 +18,11 @@ void printVerticalPadding(int tileWidth, int rows);
 
 void TerminalDisplay::draw(const Board& b) const {
     init();
-    printw("      Score: %i    Turn: %i", b.score(), b.turn());
     move(3, horizontalMargin);
+    attron(COLOR_PAIR(WHITE));
+    printw("Score: %i    Turn: %i", b.score(), b.turn());
+    attroff(COLOR_PAIR(WHITE));
+    move(6, horizontalMargin);
     int x, y;
     for (int i {0}; i < size; ++i) {
         if (i != 0 && i % 4 == 0) {
@@ -74,6 +78,7 @@ void initColours() {
     init_pair(MAGENTA, COLOR_WHITE, COLOR_MAGENTA);
     init_pair(CYAN, COLOR_BLACK, COLOR_CYAN);
     init_pair(RED, COLOR_WHITE, COLOR_RED);
+    init_pair(WHITE, COLOR_BLACK, COLOR_WHITE);
 }
 
 void init() {
@@ -95,12 +100,14 @@ void printVerticalPadding(int tileWidth, int rows) {
 }
 
 void TerminalDisplay::gameOver(const Board& b) const {
+    /* 
     initscr();
     cbreak();
-    keypad(stdscr, TRUE);
     noecho();
     scrollok(stdscr, TRUE);
-    move((tileHeight*4)+4, horizontalMargin);
+    */
+    keypad(stdscr, TRUE);
+    move((tileHeight*4)+7, horizontalMargin);
     printw("Game Over");
     int y, x;
     getyx(stdscr, y, x);
