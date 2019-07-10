@@ -3,6 +3,7 @@
 
 #include "Tile.h"
 #include <vector>
+#include <array>
 
 class Board {
 public:
@@ -17,14 +18,12 @@ public:
     bool isGameOver();
     int operator[](const std::size_t i) const;
 private:
-    std::vector<Tile> board;
+    std::array<Tile, 16> board;
     std::vector<Tile*> emptyTiles;
     int curScore;
     int turnNum;
-    bool moveUp();
-    bool moveDown();
-    bool moveRight();
-    bool moveLeft();
+    template <typename T>
+    bool move(T move);
     void markAsEmpty(Tile* t);
     void markAsOccupied(Tile* t);
 };

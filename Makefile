@@ -19,10 +19,10 @@ GameInput.o: GameInput.cpp GameInput.h
 GameInput_d.o: GameInput.cpp GameInput.h
 	g++ $(DEBUGFLAGS) -c GameInput.cpp -o GameInput_d.o -lncurses
 
-Board.o: Board.cpp Board.h
+Board.o: Board.cpp Board.h Move.h
 	g++ $(OPTFLAGS) -c Board.cpp 
 	
-Board_d.o: Board.cpp Board.h
+Board_d.o: Board.cpp Board.h Move.h
 	g++ $(DEBUGFLAGS) -c Board.cpp -o Board_d.o
 
 Display.o: Display.cpp Display.h

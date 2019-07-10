@@ -2,8 +2,9 @@
 #include "Board.h"
 #include "randomNum.h"
 #include "Tile.h"
+#include "Move.h"
 
-Board::Board() : board(16), curScore{0}, turnNum{0} {
+Board::Board() : curScore{0}, turnNum{0} {
     for (auto& tile : board) {
         emptyTiles.push_back(&tile);
     }
@@ -31,10 +32,14 @@ Board& Board::operator=(const Board& b) {
 
 bool Board::moveBoard(const char c) {
     switch (c) {
-        case 'u': return moveUp(); break;
-        case 'd': return moveDown(); break;
-        case 'l': return moveLeft(); break;
-        case 'r': return moveRight(); break;
+        static Right r;
+        static Left l;
+        static Up u;
+        static Down d;
+        case 'u': return move(u); break;
+        case 'd': return move(d); break;
+        case 'l': return move(l); break;
+        case 'r': return move(r); break;
         default: throw "Invalid move selection\n";
     }
 }
@@ -80,96 +85,25 @@ int Board::operator[](const std::size_t i) const {
     return board[i].value();
 }
 
-bool Board::moveRight() {
+template <typename T>
+bool Board::move(T move) {
     bool hasMoved {false};
-    for (int i {static_cast<int>(board.size()-1)}; i >= 0; --i) {
-        if ((i+1) % 4 == 0 || board[i] == 0) continue;
-        if ((board[i] == board[i+1]) && (board[i].isUnlocked() && board[i+1].isUnlocked())) {
+    for (int i {move.start}; move.end(i); i = move.step(i)) {
+        if (move.test(i) || board[i] == 0) continue;
+        if ((board[i] == board[move.next(i)]) && (board[i].isUnlocked() && board[move.next(i)].isUnlocked())) {
             curScore += (board[i].value() * 2);
-            board[i+1].setValue(board[i].value() * 2);
+            board[move.next(i)].setValue(board[i].value() * 2);
             board[i].setValue(0);
             markAsEmpty(&board[i]);
-            board[i+1].lock();
+            board[move.next(i)].lock();
             hasMoved = true;
-        } else if (board[i+1] == 0) {
-            board[i+1].setValue(board[i].value());
+        } else if (board[move.next(i)] == 0) {
+            board[move.next(i)].setValue(board[i].value());
             board[i].setValue(0);
             markAsEmpty(&board[i]);
-            markAsOccupied(&board[i+1]);
+            markAsOccupied(&board[move.next(i)]);
             hasMoved = true;
-            i += 2;
-        }
-    }
-    if (hasMoved) ++turnNum;
-    return hasMoved;
-}
-
-bool Board::moveLeft() {
-    bool hasMoved {false};
-    for (int i {0}; i < static_cast<int>(board.size()); ++i) {
-        if (i % 4 == 0 || board[i] == 0) continue;
-        if ((board[i] == board[i-1]) && (board[i].isUnlocked() && board[i-1].isUnlocked())) {
-            curScore += (board[i].value() * 2);
-            board[i-1].setValue(board[i].value() * 2);
-            board[i].setValue(0);
-            markAsEmpty(&board[i]);
-            board[i-1].lock();
-            hasMoved = true;
-        } else if (board[i-1] == 0) {
-            board[i-1].setValue(board[i].value());
-            board[i].setValue(0);
-            markAsEmpty(&board[i]);
-            markAsOccupied(&board[i-1]);
-            hasMoved = true;
-            i -= 2;
-        }
-    }
-    if (hasMoved) ++turnNum;
-    return hasMoved;
-}
-
-bool Board::moveUp() {
-    bool hasMoved {false};
-    for (int i {0}; i < static_cast<int>(board.size()); ++i) {
-        if (i < 4 || board[i] == 0) continue;
-        if ((board[i] == board[i-4]) && (board[i].isUnlocked() && board[i-4].isUnlocked())) {
-            curScore += (board[i].value() * 2);
-            board[i-4].setValue(board[i].value() * 2);
-            board[i].setValue(0);
-            markAsEmpty(&board[i]);
-            board[i-4].lock();
-            hasMoved = true;
-        } else if (board[i-4] == 0) {
-            board[i-4].setValue(board[i].value());
-            board[i].setValue(0);
-            markAsEmpty(&board[i]);
-            markAsOccupied(&board[i-4]);
-            hasMoved = true;
-            i -= 5;
-        }
-    }
-    if (hasMoved) ++turnNum;
-    return hasMoved;
-}
-
-bool Board::moveDown() {
-    bool hasMoved {false};
-    for (int i {static_cast<int>(board.size()-1)}; i >= 0; --i) {
-        if (i > 11 || board[i] == 0) continue;
-        if ((board[i] == board[i+4]) && (board[i].isUnlocked() && board[i+4].isUnlocked())) {
-            curScore += (board[i].value() * 2);
-            board[i+4].setValue(board[i].value() * 2);
-            board[i].setValue(0);
-            markAsEmpty(&board[i]);
-            board[i+4].lock();
-            hasMoved = true;
-        } else if (board[i+4] == 0) {
-            board[i+4].setValue(board[i].value());
-            board[i].setValue(0);
-            markAsEmpty(&board[i]);
-            markAsOccupied(&board[i+4]);
-            hasMoved = true;
-            i += 5;
+            i = (move.next(0) < 0) ? move.next(i)-1 : move.next(i)+1;
         }
     }
     if (hasMoved) ++turnNum;
