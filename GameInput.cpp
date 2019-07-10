@@ -36,7 +36,10 @@ char RandomInput::input() const {
         default: return 'd'; break;
     }
 }
-AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {5000.0} {}
+
+AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {500} {}
+
+AIinput::AIinput(int n) : gameBoard {nullptr}, iterationsPerMove {n} {}
 
 void AIinput::assignBoard(Board* b) {
     gameBoard = b;

@@ -22,12 +22,12 @@ public:
 class AIinput : public GameInput {
 public:
     AIinput();
+    AIinput(int n);
     virtual char input() const override;
     void assignBoard(Board* b);
 private:
     Board* gameBoard;
-    // double so I don't accidentally perform integer arithmetic with the avg
-    double iterationsPerMove;
+    int iterationsPerMove;
     double getAverage(char move) const;
     long simGame(Board& board) const;
 };
