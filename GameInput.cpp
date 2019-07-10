@@ -36,7 +36,7 @@ char RandomInput::input() const {
         default: return 'd'; break;
     }
 }
-AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {3000.0} {}
+AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {5000.0} {}
 
 void AIinput::assignBoard(Board* b) {
     gameBoard = b;
@@ -57,10 +57,11 @@ char AIinput::input() const {
 }
 
 double AIinput::getAverage(char move) const {
-    long long scoreTally {0};
+    double scoreTally {0};
     for (int i {0}; i < iterationsPerMove; ++i) {
         Board boardCopy {*gameBoard};
         if (boardCopy.moveBoard(move)) {
+            boardCopy.placeRandomTile();
             scoreTally += simGame(boardCopy);
         } else {
             return boardCopy.score();
