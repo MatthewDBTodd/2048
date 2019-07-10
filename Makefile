@@ -1,64 +1,53 @@
-CPPFLAGS= -Wall -pedantic-errors -g -pg 
+DEBUGFLAGS= -Wall -pedantic-errors -g -pg 
 OPTFLAGS= -Wall -pedantic-errors -O2 -O3
 
-all:
-	make 2048
-	cd Tests && $(MAKE) all
-	make clean-obj
+2048: Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o 
+	g++ $(OPTFLAGS) Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o -o 2048 -lncurses
 
-
-.PHONY: runTests
-runTests: Tests/test-board Tests/test-tile Tests/test-mover Tests/test-factory
-	cd Tests && $(MAKE) all
-	cd Tests && ./test-board
-	./test-tile
-	./test-mover
-	./test-factory
-
-2048-opt: Game-opt.o Board-opt.o GameInput-opt.o main-opt.o Tile-opt.o Display-opt.o randomNum-opt.o
-	g++ $(OPTFLAGS) Game-opt.o Board-opt.o GameInput-opt.o main-opt.o Tile-opt.o Display-opt.o randomNum-opt.o -o 2048 -lncurses
-
-2048-debug: Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o 
-	g++ $(CPPFLAGS) Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o -o 2048-debug -lncurses
-
-Game-opt.o: Game.cpp Game.h
-	g++ $(OPTFLAGS) -c Game.cpp -o Game-opt.o
+2048-debug: Game_d.o Board_d.o GameInput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o 
+	g++ $(DEBUGFLAGS) Game_d.o Board_d.o GameInput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o -o 2048-debug -lncurses
 
 Game.o: Game.cpp Game.h
-	g++ $(CPPFLAGS) -c Game.cpp
+	g++ $(OPTFLAGS) -c Game.cpp
 
-GameInput-opt.o: GameInput.cpp GameInput.h
-	g++ $(OPTFLAGS) -c GameInput.cpp -lncurses -o GameInput-opt.o
+Game_d.o: Game.cpp Game.h
+	g++ $(DEBUGFLAGS) -c Game.cpp -o Game_d.o
 
 GameInput.o: GameInput.cpp GameInput.h
-	g++ $(CPPFLAGS) -c GameInput.cpp -lncurses
+	g++ $(OPTFLAGS) -c GameInput.cpp -lncurses 
 
-Board-opt.o: Board.cpp Board.h
-	g++ $(OPTFLAGS) -c Board.cpp -o Board-opt.o
-	
+GameInput_d.o: GameInput.cpp GameInput.h
+	g++ $(DEBUGFLAGS) -c GameInput.cpp -o GameInput_d.o -lncurses
+
 Board.o: Board.cpp Board.h
-	g++ $(CPPFLAGS) -c Board.cpp
-
-Display-opt.o: Display.cpp Display.h
-	g++ $(OPTFLAGS) -c Display.cpp -lncurses -o Display-opt.o
+	g++ $(OPTFLAGS) -c Board.cpp 
+	
+Board_d.o: Board.cpp Board.h
+	g++ $(DEBUGFLAGS) -c Board.cpp -o Board_d.o
 
 Display.o: Display.cpp Display.h
-	g++ $(CPPFLAGS) -c Display.cpp -lncurses
+	g++ $(OPTFLAGS) -c Display.cpp -lncurses
 
-Tile-opt.o: Tile.cpp Tile.h
-	g++ $(OPTFLAGS) -c Tile.cpp -o Tile-opt.o
+Display_d.o: Display.cpp Display.h
+	g++ $(DEBUGFLAGS) -c Display.cpp -o Display_d.o -lncurses
 
 Tile.o: Tile.cpp Tile.h
-	g++ $(CPPFLAGS) -c Tile.cpp
+	g++ $(OPTFLAGS) -c Tile.cpp Tile.h 
 
-randomNum-opt.o: randomNum.cpp randomNum.h
-	g++ $(OPTFLAGS) -c randomNum.cpp -o randomNum-opt.o
+Tile_d.o: Tile.cpp Tile.h
+	g++ $(DEBUGFLAGS) -c Tile.cpp -o Tile_d.o
 
-randomNum.o: randomNum.cpp randomNum.h
-	g++ $(CPPFLAGS) -c randomNum.cpp
+ randomNum.o: randomNum.cpp randomNum.h
+	g++ $(OPTFLAGS) -c randomNum.cpp
 
-main-opt.o: main.cpp	
-	g++ $(OPTFLAGS) -c main.cpp -o main-opt.o
+randomNum_d.o: randomNum.cpp randomNum.h
+	g++ $(DEBUGFLAGS) -c randomNum.cpp -o randomNum_d.o
+
+main.o: main.cpp	
+	g++ $(OPTFLAGS) -c main.cpp 
+
+main_d.o: main.cpp
+	g++ $(DEBUGFLAGS) -c main.cpp -o main_d.o
 
 clean-obj:
 	rm -rf *.o 2048
