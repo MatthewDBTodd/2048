@@ -37,7 +37,7 @@ char RandomInput::input() const {
     }
 }
 
-AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {500} {}
+AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {1000} {}
 
 AIinput::AIinput(int n) : gameBoard {nullptr}, iterationsPerMove {n} {}
 

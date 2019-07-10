@@ -17,7 +17,8 @@ int main(int argc, char *argv[]) {
     move(10, 10);
     printw("No argument / Invalid argument provided"); 
     move (12, 10);
-    printw("Defaulting to AI strength 500. Press a key to continue");
+    printw("Defaulting to AI strength 1000. Press a key to continue");
+    refresh();
     getch();
     endwin();
     Game g(new AIinput);
