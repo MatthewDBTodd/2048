@@ -6,9 +6,21 @@ Game::Game() : display {new TerminalDisplay}, input {new PlayerInput} {}
 
 Game::Game(Display* dd) : display {dd}, input {new PlayerInput} {}
 
-Game::Game(GameInput* gi) : display {new TerminalDisplay}, input {gi} {}
+Game::Game(GameInput* gi) : display {new TerminalDisplay}, input {gi} {
+    // if input passed in is AI, need to assign it a pointer to the board
+    AIinput* testPtr {dynamic_cast<AIinput*>(gi)};
+    if (testPtr) {
+        testPtr->assignBoard(&board);
+    }
+}
 
-Game::Game(Display* dd, GameInput* gi) : display {dd}, input {gi} {}
+Game::Game(Display* dd, GameInput* gi) : display {dd}, input {gi} {
+    // if input passed in is AI, need to assign it a pointer to the board
+    AIinput* testPtr {dynamic_cast<AIinput*>(gi)};
+    if (testPtr) {
+        testPtr->assignBoard(&board);
+    }
+}
 
 void Game::start() {
     board.placeRandomTile();
@@ -19,11 +31,11 @@ void Game::start() {
         if (board.moveBoard(ch)) {
             board.placeRandomTile();
         }
-        board.unlockTiles();
         display->draw(board);
         if (board.isGameOver()) {
             display->gameOver(board);
             break;
         }
+        board.unlockTiles();
     }
 }

@@ -19,7 +19,6 @@ public:
         virtual char input() const override;
 };
 
-/* 
 class AIinput : public GameInput {
 public:
     AIinput();
@@ -27,7 +26,10 @@ public:
     void assignBoard(Board* b);
 private:
     Board* gameBoard;
+    // double so I don't accidentally perform integer arithmetic with the avg
+    double iterationsPerMove;
+    double getAverage(char move) const;
+    long simGame(Board& board) const;
 };
-*/
 
 #endif

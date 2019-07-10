@@ -12,7 +12,9 @@ Board::Board() : board(16), curScore{0}, turnNum{0} {
 Board::Board(const Board& b) : board{b.board}, curScore{b.curScore}, turnNum{b.turnNum} {
     // so the empty tile pointers are not pointing to the same tiles in the original board
     for (auto& tile : board) {
-        emptyTiles.push_back(&tile);
+        if (tile.value() == 0) {
+            emptyTiles.push_back(&tile);
+        }
     }
 }
 
@@ -38,8 +40,8 @@ bool Board::moveBoard(const char c) {
 }
 
 void Board::placeRandomTile() {
-    int randomIndex {getRandomNum(emptyTiles.size())};
-    int randomValue {getRandomNum(9)};
+    int randomIndex {randomNum::getRandomNum(emptyTiles.size()-1)};
+    int randomValue {randomNum::getRandomNum(9)};
     randomValue = (randomValue == 9) ? 4 : 2;
     emptyTiles[randomIndex]->setValue(randomValue);
     emptyTiles.erase(std::remove(emptyTiles.begin(), emptyTiles.end(), emptyTiles[randomIndex]), emptyTiles.end());
