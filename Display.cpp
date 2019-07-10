@@ -100,12 +100,6 @@ void printVerticalPadding(int tileWidth, int rows) {
 }
 
 void TerminalDisplay::gameOver(const Board& b) const {
-    /* 
-    initscr();
-    cbreak();
-    noecho();
-    scrollok(stdscr, TRUE);
-    */
     keypad(stdscr, TRUE);
     move((tileHeight*4)+7, horizontalMargin);
     printw("Game Over");
