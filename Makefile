@@ -1,5 +1,5 @@
 CPPFLAGS= -Wall -pedantic-errors -g -pg 
-OPTFLAGS= -Wall -pedantic-errors -O3
+OPTFLAGS= -Wall -pedantic-errors -O2 -O3
 
 all:
 	make 2048
