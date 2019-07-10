@@ -1,6 +1,3 @@
-#include <ncurses.h>
-#include <iomanip>
-#include <vector>
 #include "Tile.h"
 
 

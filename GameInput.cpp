@@ -36,7 +36,7 @@ char RandomInput::input() const {
         default: return 'd'; break;
     }
 }
-AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {500.0} {}
+AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {5000.0} {}
 
 void AIinput::assignBoard(Board* b) {
     gameBoard = b;
@@ -83,7 +83,7 @@ long AIinput::simGame(Board& board) const {
         }
         if (board.moveBoard(m)) {
             board.placeRandomTile();
-        }
+        } 
         if (board.isGameOver()) {
             return board.score();
         }

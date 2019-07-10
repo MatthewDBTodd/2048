@@ -16,7 +16,7 @@ public:
 // Mainly useful for testing end game conditions
 class RandomInput : public GameInput {
 public:
-        virtual char input() const override;
+    virtual char input() const override;
 };
 
 class AIinput : public GameInput {
