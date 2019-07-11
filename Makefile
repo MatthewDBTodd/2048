@@ -1,11 +1,11 @@
 DEBUGFLAGS= -Wall -pedantic-errors -g  
 OPTFLAGS= -Wall -pedantic-errors -O2 -O3
 
-2048: Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o 
-	g++ $(OPTFLAGS) Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o -o 2048 -lncurses
+2048: Game.o Board.o GameInput.o AIinput.o main.o Tile.o Display.o randomNum.o 
+	g++ $(OPTFLAGS) Game.o Board.o GameInput.o AIinput.o main.o Tile.o Display.o randomNum.o -o 2048 -lncurses
 
 2048-debug: Game_d.o Board_d.o GameInput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o 
-	g++ $(DEBUGFLAGS) Game_d.o Board_d.o GameInput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o -o 2048-debug -lncurses
+	g++ $(DEBUGFLAGS) Game_d.o Board_d.o GameInput_d.o AIinput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o -o 2048-debug -lncurses
 
 Game.o: Game.cpp Game.h
 	g++ $(OPTFLAGS) -c Game.cpp
@@ -18,6 +18,12 @@ GameInput.o: GameInput.cpp GameInput.h
 
 GameInput_d.o: GameInput.cpp GameInput.h
 	g++ $(DEBUGFLAGS) -c GameInput.cpp -o GameInput_d.o -lncurses
+
+AIinput.o: AIinput.cpp AIinput.h GameInput.h
+	g++ $(OPTFLAGS) -c AIinput.cpp
+
+AIinput_d.o: AIinput.cpp AIinput.h GameInput.h
+	g++ $(DEBUGFLAGS) -c AIinput.cpp -o AIinput_d.o
 
 Board.o: Board.cpp Board.h Move.h
 	g++ $(OPTFLAGS) -c Board.cpp 

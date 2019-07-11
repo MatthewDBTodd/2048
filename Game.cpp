@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Display.h"
 #include "GameInput.h"
+#include "AIinput.h"
 
 Game::Game() : display {new TerminalDisplay}, input {new PlayerInput} {}
 

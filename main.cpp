@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include "Game.h"
+#include "AIinput.h"
 
 int main(int argc, char *argv[]) {
     initscr();
