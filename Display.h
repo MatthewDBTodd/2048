@@ -16,6 +16,7 @@ private:
     static constexpr int numColours {6};
     static constexpr int size {16};
     std::string prepareString(std::string val) const;
+    void displayBoard(const Board& b) const;
     void displayTile(std::string val) const;
 public:
     virtual void draw(const Board& b) const override;

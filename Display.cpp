@@ -15,32 +15,15 @@ const char* prepareString(int val);
 void init();
 void initColours();
 void printVerticalPadding(int tileWidth, int rows);
+void printScore(int score, int turn);
 
 void TerminalDisplay::draw(const Board& b) const {
     init();
     move(3, horizontalMargin);
-    attron(COLOR_PAIR(WHITE));
-    printw("Score: %i    Turn: %i", b.score(), b.turn());
-    attroff(COLOR_PAIR(WHITE));
+    printScore(b.score(), b.turn());
     move(6, horizontalMargin);
-    int x, y;
-    for (int i {0}; i < size; ++i) {
-        if (i != 0 && i % 4 == 0) {
-            getyx(stdscr, y, x);
-            move(y+tileHeight, horizontalMargin);
-        }
-        if( b[i] == 0) {
-            std::string val {"-"};
-            displayTile(prepareString(val));
-            continue;
-        }
-        int log {static_cast<int>(log2(b[i]))};
-        int colorVal {(log % numColours) + 1};
-        std::string val {prepareString(std::to_string(b[i]))};
-        attron(COLOR_PAIR(colorVal));
-        displayTile(val);
-        attroff(COLOR_PAIR(colorVal));
-    }
+    displayBoard(b);
+    int y, x;
     getyx(stdscr, y, x);
     move(y+(tileHeight+2), horizontalMargin);
     refresh();
@@ -58,6 +41,25 @@ std::string TerminalDisplay::prepareString(std::string val) const {
         output.push_back(' ');
     }
     return output;
+}
+
+void TerminalDisplay::displayBoard(const Board& b) const {
+    int x, y;
+    for (int i {0}; i < size; ++i) {
+        if (i != 0 && i % 4 == 0) {
+            getyx(stdscr, y, x);
+            move(y+tileHeight, horizontalMargin);
+        }
+        if( b[i] == 0) {
+            displayTile(prepareString("-"));
+            continue;
+        }
+        int log {static_cast<int>(log2(b[i]))};
+        int colorVal {(log % numColours) + 1};
+        attron(COLOR_PAIR(colorVal));
+        displayTile(prepareString(std::to_string(b[i])));
+        attroff(COLOR_PAIR(colorVal));
+    }
 }
 
 void TerminalDisplay::displayTile(std::string val) const {
@@ -112,4 +114,10 @@ void TerminalDisplay::gameOver(const Board& b) const {
         if (ch == KEY_F(1)) break;
     }
     endwin();
+}
+
+void printScore(int score, int turn) {
+    attron(COLOR_PAIR(WHITE));
+    printw("Score: %i    Turn: %i", score, turn);
+    attroff(COLOR_PAIR(WHITE));
 }
