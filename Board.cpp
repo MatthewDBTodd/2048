@@ -103,7 +103,7 @@ int Board::operator[](const std::size_t i) const {
  * All defined in Move.h
  */
 template <typename T>
-bool Board::move(T move) {
+bool Board::move(const T& move) {
     bool hasMoved {false};
     for (int i {move.start}; move.end(i); i = move.step(i)) {
         if (move.test(i) || board[i] == 0) continue;

@@ -23,7 +23,7 @@ private:
     int curScore;
     int turnNum;
     template <typename T>
-    bool move(T move);
+    bool move(const T& move);
     void markAsEmpty(Tile* t);
     void markAsOccupied(Tile* t);
 };
