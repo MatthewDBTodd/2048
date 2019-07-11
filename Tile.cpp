@@ -1,6 +1,5 @@
 #include "Tile.h"
 
-
 Tile::Tile() : val {0}, locked {false} {}
 
 void Tile::setValue(const int v) {

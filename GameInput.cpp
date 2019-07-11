@@ -67,7 +67,7 @@ double AIinput::getAverage(char move) const {
             boardCopy.placeRandomTile();
             scoreTally += simGame(boardCopy);
         } else {
-            return boardCopy.score();
+            return -1;
         }
     }
     return scoreTally / iterationsPerMove;
