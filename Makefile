@@ -1,4 +1,4 @@
-DEBUGFLAGS= -Wall -pedantic-errors -g -pg 
+DEBUGFLAGS= -Wall -pedantic-errors -g  
 OPTFLAGS= -Wall -pedantic-errors -O2 -O3
 
 2048: Game.o Board.o GameInput.o main.o Tile.o Display.o randomNum.o 
