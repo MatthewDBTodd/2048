@@ -2,6 +2,9 @@
 #define DISPLAY_H
 #include <string>
 
+/* Using a polymorphic Display interface in case I want to try other displays in
+ * the future
+ */
 class Display {
 public:
     virtual void draw(const Board& b) const = 0;
@@ -18,7 +21,7 @@ private:
     static constexpr int horizontalMargin {6};
     static constexpr int numColours {6};
     static constexpr int size {16};
-    std::string prepareString(std::string val) const;
+    std::string centreValue(std::string val) const;
     void displayBoard(const Board& b) const;
     void displayTile(std::string val) const;
 };

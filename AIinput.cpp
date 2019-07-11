@@ -12,6 +12,10 @@ void AIinput::assignBoard(Board* b) {
     gameBoard = b;
 }
 
+/* For each move direction, makes that move then plays many game simulations using 
+ * random moves and averages their final scores. Then selecting the move with the
+ * highest average score
+ */
 char AIinput::input() const {
     std::map<char, double> moveAverages {{'u', 0.0}, {'d', 0.0}, {'r', 0.0}, {'l', 0.0}};
     for (auto& move : moveAverages) {
@@ -33,6 +37,7 @@ double AIinput::getAverage(char move) const {
         if (boardCopy.moveBoard(move)) {
             boardCopy.placeRandomTile();
             scoreTally += simGame(boardCopy);
+        // that move is not possible, skip simulations for that move 
         } else {
             return -1;
         }

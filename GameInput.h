@@ -3,6 +3,7 @@
 
 class Board;
 
+// Allows player input or AI input to be easily swapped out
 class GameInput {
 public:
     virtual char input() const = 0;

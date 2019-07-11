@@ -11,7 +11,6 @@
 #define CYAN 6
 #define WHITE 7
 
-const char* prepareString(int val);
 void init();
 void initColours();
 void printVerticalPadding(int tileWidth, int rows);
@@ -29,7 +28,7 @@ void TerminalDisplay::draw(const Board& b) const {
     refresh();
 }
 
-std::string TerminalDisplay::prepareString(std::string val) const {
+std::string TerminalDisplay::centreValue(std::string val) const {
     std::size_t valLength {val.length()};
     std::string output {}; 
     std::size_t i {0};
@@ -51,13 +50,13 @@ void TerminalDisplay::displayBoard(const Board& b) const {
             move(y+tileHeight, horizontalMargin);
         }
         if( b[i] == 0) {
-            displayTile(prepareString("-"));
+            displayTile(centreValue("-"));
             continue;
         }
         int log {static_cast<int>(log2(b[i]))};
         int colorVal {(log % numColours) + 1};
         attron(COLOR_PAIR(colorVal));
-        displayTile(prepareString(std::to_string(b[i])));
+        displayTile(centreValue(std::to_string(b[i])));
         attroff(COLOR_PAIR(colorVal));
     }
 }

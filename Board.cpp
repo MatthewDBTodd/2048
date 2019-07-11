@@ -10,6 +10,7 @@ Board::Board() : curScore{0}, turnNum{0} {
     }
 }
 
+// Board is copied by the AI to run simulations on
 Board::Board(const Board& b) : board{b.board}, curScore{b.curScore}, turnNum{b.turnNum} {
     // so the empty tile pointers are not pointing to the same tiles in the original board
     for (auto& tile : board) {
@@ -19,6 +20,7 @@ Board::Board(const Board& b) : board{b.board}, curScore{b.curScore}, turnNum{b.t
     }
 }
 
+// Board is copied by the AI to run simulations on
 Board& Board::operator=(const Board& b) {
     board = b.board;
     curScore = b.curScore;
@@ -52,6 +54,10 @@ void Board::placeRandomTile() {
     emptyTiles.erase(std::remove(emptyTiles.begin(), emptyTiles.end(), emptyTiles[randomIndex]), emptyTiles.end());
 }
 
+/* Tiles can only merge once per move, once a tile is merged it is locked
+ * to prevent further merges. This function then unlocks all the tiles for
+ * the next turn
+ */
 void Board::unlockTiles() {
     for (auto& tile: board) {
         tile.unlock();
@@ -85,6 +91,17 @@ int Board::operator[](const std::size_t i) const {
     return board[i].value();
 }
 
+/* move.start  = the starting position of the loop for each move type. Need to
+ *               move through the loop in the opposite direction of the move direction
+ *               so that tiles "in front" are moved as far as they can go first
+ * move.end()  = the ending loop condition for each move type
+ * move.step() = the step direction for each move type i.e. --i or ++i
+ * move.test() = certain tiles don't need checking for each move type as they're 
+ *               at the furthest edge
+ * move.next() = the relative tile index of the tile to check for possible merges
+ *               or swaps. i.e. for a down move, you want to check at index i+4
+ * All defined in Move.h
+ */
 template <typename T>
 bool Board::move(T move) {
     bool hasMoved {false};
