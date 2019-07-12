@@ -24,8 +24,6 @@ private:
     int numEmptyTiles;
     template <typename T>
     bool move(const T& move);
-    void markAsEmpty(Tile* t);
-    void markAsOccupied(Tile* t);
 };
 
 #endif
