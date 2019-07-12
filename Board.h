@@ -2,14 +2,11 @@
 #define BOARD_H
 
 #include "Tile.h"
-#include <vector>
 #include <array>
 
 class Board {
 public:
     Board();
-    Board(const Board& b);
-    Board& operator=(const Board& b);
     int score() const { return curScore; }
     int turn() const { return turnNum; }
     bool moveBoard(const char c);

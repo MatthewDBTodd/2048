@@ -6,19 +6,6 @@
 
 Board::Board() : curScore{0}, turnNum{0}, numEmptyTiles{16} {}
 
-// Board is copied by the AI to run simulations on
-Board::Board(const Board& b) : board{b.board}, curScore{b.curScore}, turnNum{b.turnNum}, numEmptyTiles{b.numEmptyTiles} {}
-
-// Board is copied by the AI to run simulations on
-Board& Board::operator=(const Board& b) {
-    board = b.board;
-    curScore = b.curScore;
-    turnNum = b.turnNum;
-    numEmptyTiles = b.numEmptyTiles;
-    // so the empty tile pointers are not pointing to the same tiles in the original board
-    return *this;
-}
-
 bool Board::moveBoard(const char c) {
     switch (c) {
         static Right r;
