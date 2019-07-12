@@ -4,6 +4,8 @@
 #include "Tile.h"
 #include "Move.h"
 
+#include "fTimer.h"
+
 Board::Board() : curScore{0}, turnNum{0}, numEmptyTiles{16} {}
 
 // Board is copied by the AI to run simulations on
@@ -34,6 +36,7 @@ bool Board::moveBoard(const char c) {
 }
 
 void Board::placeRandomTile() {
+    fTimer f("placeRandomTile ***NEW***");
     int randomIndex {(numEmptyTiles > 1) ? randomNum::getRandomNum(numEmptyTiles-1) : 0};
     int randomValue {randomNum::getRandomNum(9)};
     randomValue = (randomValue == 9) ? 4 : 2;
@@ -96,6 +99,7 @@ int Board::operator[](const std::size_t i) const {
  */
 template <typename T>
 bool Board::move(const T& move) {
+    fTimer f("move() ***NEW***");
     bool hasMoved {false};
     for (int i {move.start}; move.end(i); i = move.step(i)) {
         if (move.test(i) || board[i] == 0) continue;

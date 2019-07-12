@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "AIinput.h"
 
+#include "fTimer.h"
+
 int main(int argc, char *argv[]) {
     initscr();
     cbreak();
@@ -12,6 +14,7 @@ int main(int argc, char *argv[]) {
             int i {std::stoi(argv[1])};
             Game g(new AIinput(i)); 
             g.start();
+            fTimer::report();
             return 0;
         } catch (std::exception) {}
     }
