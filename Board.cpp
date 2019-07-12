@@ -42,7 +42,7 @@ void Board::placeRandomTile() {
     randomValue = (randomValue == 9) ? 4 : 2;
     int count {0};
     for (auto& tile : board) {
-        if (!(tile == 0)) { continue; }
+        if (tile != 0) { continue; }
         if (count++ == randomIndex) {
             tile.setValue(randomValue);
             --numEmptyTiles;

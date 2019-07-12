@@ -12,6 +12,7 @@ public:
     bool operator==(const Tile& t) const;
     bool operator==(const int n) const;
     bool operator!=(const Tile& t) const;
+    bool operator!=(const int n) const;
 private:
     int val;
     bool locked;

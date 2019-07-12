@@ -17,3 +17,7 @@ bool Tile::operator==(const int n) const {
 bool Tile::operator!=(const Tile& t) const {
     return val != t.val;
 }
+
+bool Tile::operator!=(const int n) const {
+    return val != n;
+}
