@@ -19,9 +19,9 @@ public:
     int operator[](const std::size_t i) const;
 private:
     std::array<Tile, 16> board;
-    std::vector<Tile*> emptyTiles;
     int curScore;
     int turnNum;
+    int numEmptyTiles;
     template <typename T>
     bool move(const T& move);
     void markAsEmpty(Tile* t);

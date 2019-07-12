@@ -5,7 +5,7 @@ OPTFLAGS= -Wall -pedantic-errors -O2 -O3
 	g++ $(OPTFLAGS) Game.o Board.o GameInput.o AIinput.o main.o Tile.o Display.o randomNum.o -o 2048 -lncurses
 	rm *.o
 
-2048-debug: Game_d.o Board_d.o GameInput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o 
+2048-debug: Game_d.o Board_d.o GameInput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o AIinput_d.o
 	g++ $(DEBUGFLAGS) Game_d.o Board_d.o GameInput_d.o AIinput_d.o main_d.o Tile_d.o Display_d.o randomNum_d.o -o 2048-debug -lncurses
 
 Game.o: Game.cpp Game.h

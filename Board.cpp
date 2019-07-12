@@ -4,31 +4,18 @@
 #include "Tile.h"
 #include "Move.h"
 
-Board::Board() : curScore{0}, turnNum{0} {
-    for (auto& tile : board) {
-        emptyTiles.push_back(&tile);
-    }
-}
+Board::Board() : curScore{0}, turnNum{0}, numEmptyTiles{16} {}
 
 // Board is copied by the AI to run simulations on
-Board::Board(const Board& b) : board{b.board}, curScore{b.curScore}, turnNum{b.turnNum} {
-    // so the empty tile pointers are not pointing to the same tiles in the original board
-    for (auto& tile : board) {
-        if (tile.value() == 0) {
-            emptyTiles.push_back(&tile);
-        }
-    }
-}
+Board::Board(const Board& b) : board{b.board}, curScore{b.curScore}, turnNum{b.turnNum}, numEmptyTiles{b.numEmptyTiles} {}
 
 // Board is copied by the AI to run simulations on
 Board& Board::operator=(const Board& b) {
     board = b.board;
     curScore = b.curScore;
     turnNum = b.turnNum;
+    numEmptyTiles = b.numEmptyTiles;
     // so the empty tile pointers are not pointing to the same tiles in the original board
-    for (auto& tile: board) {
-        emptyTiles.push_back(&tile);
-    }
     return *this;
 }
 
@@ -47,11 +34,18 @@ bool Board::moveBoard(const char c) {
 }
 
 void Board::placeRandomTile() {
-    int randomIndex {randomNum::getRandomNum(emptyTiles.size()-1)};
+    int randomIndex {(numEmptyTiles > 1) ? randomNum::getRandomNum(numEmptyTiles-1) : 0};
     int randomValue {randomNum::getRandomNum(9)};
     randomValue = (randomValue == 9) ? 4 : 2;
-    emptyTiles[randomIndex]->setValue(randomValue);
-    emptyTiles.erase(std::remove(emptyTiles.begin(), emptyTiles.end(), emptyTiles[randomIndex]), emptyTiles.end());
+    int count {0};
+    for (auto& tile : board) {
+        if (!(tile == 0)) { continue; }
+        if (count++ == randomIndex) {
+            tile.setValue(randomValue);
+            --numEmptyTiles;
+            break;
+        }
+    }
 }
 
 /* Tiles can only merge once per move, once a tile is merged it is locked
@@ -65,9 +59,7 @@ void Board::unlockTiles() {
 }
 
 bool Board::isGameOver() {
-    if (emptyTiles.size() > 0) {
-        return false;
-    }
+    if (numEmptyTiles > 0) { return false; }
     for (std::size_t i {0}; i < board.size(); ++i) {
         if (board[i] == 0) return false;
         switch (i) {
@@ -111,26 +103,16 @@ bool Board::move(const T& move) {
             curScore += (board[i].value() * 2);
             board[move.next(i)].setValue(board[i].value() * 2);
             board[i].setValue(0);
-            markAsEmpty(&board[i]);
+            ++numEmptyTiles;
             board[move.next(i)].lock();
             hasMoved = true;
         } else if (board[move.next(i)] == 0) {
             board[move.next(i)].setValue(board[i].value());
             board[i].setValue(0);
-            markAsEmpty(&board[i]);
-            markAsOccupied(&board[move.next(i)]);
             hasMoved = true;
             i = (move.next(0) < 0) ? move.next(i)-1 : move.next(i)+1;
         }
     }
     if (hasMoved) ++turnNum;
     return hasMoved;
-}
-
-void Board::markAsEmpty(Tile* t) {
-    emptyTiles.push_back(t);
-}
-
-void Board::markAsOccupied(Tile* t) {
-    emptyTiles.erase(std::remove(emptyTiles.begin(), emptyTiles.end(), t), emptyTiles.end());
 }
