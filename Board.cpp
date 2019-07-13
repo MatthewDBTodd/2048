@@ -90,6 +90,7 @@ bool Board::move(Move& move) {
             reset(move);
         }
     }
+    if (hasMoved) { ++turnNum; }
     return hasMoved;
 }
 
