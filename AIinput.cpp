@@ -62,6 +62,5 @@ long AIinput::simGame(Board& board) const {
         if (board.isGameOver()) {
             return board.score();
         }
-        board.unlockTiles();
     }
 }

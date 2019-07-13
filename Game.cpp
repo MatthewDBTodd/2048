@@ -37,6 +37,5 @@ void Game::start() {
             display->gameOver(board);
             break;
         }
-        board.unlockTiles();
     }
 }

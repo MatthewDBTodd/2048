@@ -4,14 +4,17 @@
 #include "Tile.h"
 #include "Move.h"
 
+#include "fTimer.h"
+std::map<std::string, std::pair<double, long>> fTimer::fTimes;
+
 Board::Board() : curScore{0}, turnNum{0}, numEmptyTiles{16} {}
 
 bool Board::moveBoard(const char c) {
+    static Right r;
+    static Left l;
+    static Up u;
+    static Down d;
     switch (c) {
-        static Right r;
-        static Left l;
-        static Up u;
-        static Down d;
         case 'u': return move(u); break;
         case 'd': return move(d); break;
         case 'l': return move(l); break;
@@ -39,11 +42,6 @@ void Board::placeRandomTile() {
  * to prevent further merges. This function then unlocks all the tiles for
  * the next turn
  */
-void Board::unlockTiles() {
-    for (auto& tile: board) {
-        tile.unlock();
-    }
-}
 
 bool Board::isGameOver() {
     if (numEmptyTiles > 0) { return false; }
@@ -80,7 +78,6 @@ int Board::operator[](const std::size_t i) const {
  * move.next() = the relative tile index of the tile to check for possible merges
  *               or swaps. i.e. for a down move, you want to check at index i+4
  * All defined in Move.h
- */
 template <typename T>
 bool Board::move(const T& move) {
     bool hasMoved {false};
@@ -102,4 +99,50 @@ bool Board::move(const T& move) {
     }
     if (hasMoved) ++turnNum;
     return hasMoved;
+}
+*/
+
+template <typename Move>
+bool Board::move(Move& move) {
+    fTimer f("move() NEW");
+    bool hasMoved {false};
+    for (int i {move.start}; move.end(i); i = move.step(i)) {
+        if (board[i] == 0) {
+            move.nextFreeSlot = (move.nextFreeSlot == -1) ? i : move.nextFreeSlot;
+        } else if (board[i] == move.previousTileValue) {
+            hasMoved = true;
+            merge(move, i);
+        } else {
+            move.previousTileValue = board[i].value();
+            move.previousTile = i;
+            if (move.nextFreeSlot != -1) {
+                hasMoved = true;
+                swap(move, i);
+            } 
+        }
+        if (move.test(i)) {
+            reset(move);
+        }
+    }
+    return hasMoved;
+}
+
+template <typename Move>
+void Board::merge(Move& move, int i) {
+    int value {board[i].value()};
+    curScore += (value * 2);
+    board[move.previousTile].setValue(value * 2);
+    board[i].setValue(0);
+    ++numEmptyTiles;
+    move.nextFreeSlot = i;
+    move.previousTileValue = -1;
+    move.previousTile = -1;
+}
+
+template <typename Move>
+void Board::swap(Move& move, int i) {
+    board[move.nextFreeSlot].setValue(board[i].value());
+    board[i].setValue(0);
+    move.previousTile = move.nextFreeSlot;
+    move.nextFreeSlot = move.step(move.nextFreeSlot);
 }

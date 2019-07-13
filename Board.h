@@ -11,7 +11,6 @@ public:
     int turn() const { return turnNum; }
     bool moveBoard(const char c);
     void placeRandomTile();
-    void unlockTiles();
     bool isGameOver();
     int operator[](const std::size_t i) const;
 private:
@@ -19,8 +18,12 @@ private:
     int curScore;
     int turnNum;
     int numEmptyTiles;
-    template <typename T>
-    bool move(const T& move);
+    template <typename Move>
+    bool move(Move& move);
+    template <typename Move>
+    void merge(Move& move, int i);
+    template <typename Move>
+    void swap(Move& move, int i);
 };
 
 #endif
