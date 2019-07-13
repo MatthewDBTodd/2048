@@ -27,9 +27,6 @@ struct Right {
     static constexpr bool test(int index) {
         return index % 4 == 0;
     }
-    static constexpr int next(int index) {
-        return index+1;
-    }
 };
 
 struct Left {
@@ -50,9 +47,6 @@ struct Left {
     }
     static constexpr bool test(int index) {
         return (index + 1) % 4 == 0;
-    }
-    static constexpr int next(int index) {
-        return index-1;
     }
 };
 
@@ -76,9 +70,6 @@ struct Up {
     static constexpr bool test(int index) {
         return index > 11;
     }
-    static constexpr int next(int index) {
-        return index-4;
-    }
 };
 
 struct Down {
@@ -100,9 +91,6 @@ struct Down {
     }
     static constexpr bool test(int index) {
         return index < 4;
-    }
-    static constexpr int next(int index) {
-        return index+4;
     }
 };
 

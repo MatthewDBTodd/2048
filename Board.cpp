@@ -4,9 +4,6 @@
 #include "Tile.h"
 #include "Move.h"
 
-#include "fTimer.h"
-std::map<std::string, std::pair<double, long>> fTimer::fTimes;
-
 Board::Board() : curScore{0}, turnNum{0}, numEmptyTiles{16} {}
 
 bool Board::moveBoard(const char c) {
@@ -38,11 +35,6 @@ void Board::placeRandomTile() {
     }
 }
 
-/* Tiles can only merge once per move, once a tile is merged it is locked
- * to prevent further merges. This function then unlocks all the tiles for
- * the next turn
- */
-
 bool Board::isGameOver() {
     if (numEmptyTiles > 0) { return false; }
     for (std::size_t i {0}; i < board.size(); ++i) {
@@ -72,39 +64,13 @@ int Board::operator[](const std::size_t i) const {
  *               move through the loop in the opposite direction of the move direction
  *               so that tiles "in front" are moved as far as they can go first
  * move.end()  = the ending loop condition for each move type
- * move.step() = the step direction for each move type i.e. --i or ++i
- * move.test() = certain tiles don't need checking for each move type as they're 
- *               at the furthest edge
- * move.next() = the relative tile index of the tile to check for possible merges
- *               or swaps. i.e. for a down move, you want to check at index i+4
+ * move.step() = the step direction for each move type i.e. ++i or +4
+ * move.test() = When to reset the search for empty space and/or merge for that 
+ *               column/row before moving on to the next one
  * All defined in Move.h
-template <typename T>
-bool Board::move(const T& move) {
-    bool hasMoved {false};
-    for (int i {move.start}; move.end(i); i = move.step(i)) {
-        if (move.test(i) || board[i] == 0) continue;
-        if ((board[i] == board[move.next(i)]) && (board[i].isUnlocked() && board[move.next(i)].isUnlocked())) {
-            curScore += (board[i].value() * 2);
-            board[move.next(i)].setValue(board[i].value() * 2);
-            board[i].setValue(0);
-            ++numEmptyTiles;
-            board[move.next(i)].lock();
-            hasMoved = true;
-        } else if (board[move.next(i)] == 0) {
-            board[move.next(i)].setValue(board[i].value());
-            board[i].setValue(0);
-            hasMoved = true;
-            i = (move.next(0) < 0) ? move.next(i)-1 : move.next(i)+1;
-        }
-    }
-    if (hasMoved) ++turnNum;
-    return hasMoved;
-}
-*/
-
+ */
 template <typename Move>
 bool Board::move(Move& move) {
-    fTimer f("move() NEW");
     bool hasMoved {false};
     for (int i {move.start}; move.end(i); i = move.step(i)) {
         if (board[i] == 0) {
