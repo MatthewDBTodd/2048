@@ -4,7 +4,7 @@
 #include "Board.h"
 #include "randomNum.h"
 
-AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {1000} {}
+AIinput::AIinput() : gameBoard {nullptr}, iterationsPerMove {2000} {}
 
 AIinput::AIinput(int n) : gameBoard {nullptr}, iterationsPerMove {n} {}
 

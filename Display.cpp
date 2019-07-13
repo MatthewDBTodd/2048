@@ -102,12 +102,10 @@ void printVerticalPadding(int tileWidth, int rows) {
 
 void TerminalDisplay::gameOver(const Board& b) const {
     keypad(stdscr, TRUE);
-    move((tileHeight*4)+7, horizontalMargin);
-    printw("Game Over");
+    mvprintw((tileHeight*4)+7, horizontalMargin, "Game Over");
     int y, x;
     getyx(stdscr, y, x);
-    move(y+2, horizontalMargin);
-    printw("Press F1 to quit\n");
+    mvprintw(y+2, horizontalMargin, "Press F1 to quit\n");
     while (true) {
         int ch {getch()};
         if (ch == KEY_F(1)) break;

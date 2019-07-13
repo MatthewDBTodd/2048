@@ -1,28 +1,19 @@
-#include <ncurses.h>
 #include "Game.h"
 #include "AIinput.h"
+#include "mainMenu.h"
 
 int main(int argc, char *argv[]) {
-    initscr();
-    cbreak();
-    keypad(stdscr, TRUE);
-    noecho();
-    if (argc == 2) {
-        try {
-            int i {std::stoi(argv[1])};
-            Game g(new AIinput(i)); 
+    initM();
+    int ch {getChoice()};
+    switch (ch) {
+        case 0: {
+            Game g;
             g.start();
-            return 0;
-        } catch (std::exception) {}
+        }
+        default: {
+            int strength {getAIStrength()};
+            Game g(new AIinput(strength));
+            g.start();
+        }
     }
-    move(10, 10);
-    printw("No argument / Invalid argument provided"); 
-    move (12, 10);
-    printw("Defaulting to AI strength 1000. Press a key to continue");
-    refresh();
-    getch();
-    endwin();
-    Game g(new AIinput);
-    g.start();
-    return 0;
 }
