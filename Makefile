@@ -11,7 +11,7 @@ mainMenu.o: mainMenu.cpp mainMenu.h
 	g++ $(OPTFLAGS) -c mainMenu.cpp
 
 mainMenu_d.o: mainMenu.cpp mainMenu.h
-	g++ $(DEBUGFLAGS) -c mainMenu.cpp -o mainMenu_d.obj
+	g++ $(DEBUGFLAGS) -c mainMenu.cpp -o mainMenu_d.o
 
 Move.o: Move.cpp Move.h
 	g++ $(OPTFLAGS) -c Move.cpp

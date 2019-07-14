@@ -9,18 +9,22 @@ void initM() {
 }
 
 void displayMenu(int highlightedCh) {
-    mvprintw(3, 6, "2048");
     start_color();
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    attron(COLOR_PAIR(2));
+    mvprintw(3, 6, "2048");
+    mvprintw(5, 6, "Select choice with the arrow keys and press enter");
+    attroff(COLOR_PAIR(2));
     init_pair(1, COLOR_BLACK, COLOR_WHITE); 
     if (highlightedCh == 0) {
         attron(COLOR_PAIR(1));
     }
-    mvprintw(5, 6, "Play game");
+    mvprintw(7, 6, "Watch the AI play");
     attroff(COLOR_PAIR(1));
     if (highlightedCh == 1) {
         attron(COLOR_PAIR(1));
     }
-    mvprintw(7, 6, "Watch the AI play");
+    mvprintw(9, 6, "Play game");
     attroff(COLOR_PAIR(1));
 }
 
