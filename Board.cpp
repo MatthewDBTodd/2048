@@ -38,7 +38,6 @@ void Board::placeRandomTile() {
 bool Board::isGameOver() {
     if (numEmptyTiles > 0) { return false; }
     for (std::size_t i {0}; i < board.size(); ++i) {
-        if (board[i] == 0) return false;
         switch (i) {
             // tiles on the right most column only need to check below
             case 3: case 7: case 11: {
