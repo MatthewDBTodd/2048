@@ -1,3 +1,6 @@
+#ifndef AIINPUT_H
+#define AIINPUT_H
+
 #include "GameInput.h"
 
 class Board;
@@ -14,3 +17,5 @@ private:
     double getAverage(char move) const;
     long simGame(Board& board) const;
 };
+
+#endif
