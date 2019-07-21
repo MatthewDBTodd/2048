@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include "mainMenu.h"
 
-void initM() {
+void initMenu() {
     initscr();
     cbreak();
     keypad(stdscr, TRUE);
@@ -55,21 +55,22 @@ int getAIStrength() {
     do {
         printText();
         char c {};
-        if ((scanw("%d%c", &choice, &c) == 1) && choice >= 1 && choice <= 200) {
+        if ((scanw("%d%c", &choice, &c) == 1) && choice >= 100 && choice <= 20000) {
             break;
         }
     } while (true);
     erase();
-    return (choice * 100);
+    return choice;
 }
 
 void printText() {
     echo();
     erase();
-    mvprintw(3, 6, "Enter the AI strength between 1 and 200: ");
-    mvprintw(5, 6, "For reference, 1 is already pretty strong. It will get the 2048 tile most of the time, and move too quick to follow");
-    mvprintw(7, 6, "Level 200 will move very slowly, but will generally perform better");
-    mvprintw(9, 6, "Bear in mind though, that there's diminishing returns the higher you get, due to the luck aspect of the game");
-    mvprintw(11, 6, "Level 20 seems to be a good middle ground between speed and strength");
-    move(3, 47);
+    mvprintw(3, 6, "Enter the AI strength between 100 and 20000: ");
+    mvprintw(5, 6, "The number entered is the number of game simulations the AI will run for each of the 4 moves per turn");
+    mvprintw(7, 6, "For reference, 100 is already pretty strong. It will get the 2048 tile most of the time, and the game will finish in a few seconds");
+    mvprintw(9, 6, "20000 game simulations per move direction will move very slowly, but will generally perform better on average");
+    mvprintw(11, 6, "Bear in mind though, that there's diminishing returns the higher you get, due to the luck aspect of the game");
+    mvprintw(13, 6, "2000 seems to be a good middle ground between speed and strength");
+    move(3, 51);
 }

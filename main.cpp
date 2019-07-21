@@ -3,7 +3,7 @@
 #include "mainMenu.h"
 
 int main(int argc, char *argv[]) {
-    initM();
+    initMenu();
     int ch {getChoice()};
     switch (ch) {
         case 0: {
