@@ -6,6 +6,18 @@
 
 Board::Board() : curScore{0}, turnNum{0}, numEmptyTiles{16} {}
 
+Score Board::scoreInfo() const {
+    Score s;
+    s.score = curScore;
+    s.numTurns = turnNum;
+    int n {};
+    for (const auto& tile : board) {
+        n = (n < tile.value()) ? tile.value() : n;
+    }
+    s.highestTile = n;
+    return s;
+}
+
 bool Board::moveBoard(const char c) {
     static Right r;
     static Left l;

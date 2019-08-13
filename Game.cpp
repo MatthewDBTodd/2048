@@ -3,9 +3,9 @@
 #include "GameInput.h"
 #include "AIinput.h"
 
-Game::Game() : display {new TerminalDisplay}, input {new PlayerInput} {}
+//Game::Game() : display {new TerminalDisplay}, input {new PlayerInput} {}
 
-Game::Game(Display* dd) : display {dd}, input {new PlayerInput} {}
+//Game::Game(Display* dd) : display {dd}, input {new PlayerInput} {}
 
 Game::Game(GameInput* gi) : display {new TerminalDisplay}, input {gi} {
     // if input passed in is AI, need to assign it a pointer to the board
@@ -23,7 +23,7 @@ Game::Game(Display* dd, GameInput* gi) : display {dd}, input {gi} {
     }
 }
 
-void Game::start() {
+Score Game::play() {
     board.placeRandomTile();
     board.placeRandomTile();
     display->draw(board);
@@ -35,7 +35,7 @@ void Game::start() {
         display->draw(board);
         if (board.isGameOver()) {
             display->gameOver(board);
-            break;
+            return board.scoreInfo();
         }
     }
 }

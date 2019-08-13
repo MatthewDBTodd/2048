@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include "Tile.h"
+#include "Score.h"
 #include <array>
 
 class Board {
@@ -9,6 +10,7 @@ public:
     Board();
     int score() const { return curScore; }
     int turn() const { return turnNum; }
+    Score scoreInfo() const;
     bool moveBoard(const char c);
     void placeRandomTile();
     bool isGameOver();

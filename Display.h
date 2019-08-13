@@ -1,6 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 #include <string>
+#include "Board.h"
 
 /* Using a polymorphic Display interface in case I want to try other displays in
  * the future
