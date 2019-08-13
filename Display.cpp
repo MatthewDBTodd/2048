@@ -104,13 +104,15 @@ void TerminalDisplay::gameOver(const Board& b) const {
     keypad(stdscr, TRUE);
     noecho();
     mvprintw((tileHeight*4)+7, horizontalMargin, "Game Over");
+    /* 
     int y, x;
     getyx(stdscr, y, x);
-    mvprintw(y+2, horizontalMargin, "Press F1 to quit\n");
+    mvprintw(y+2, horizontalMargin, "Press Enter to quit\n");
     while (true) {
         int ch {getch()};
-        if (ch == KEY_F(1)) break;
+        if (ch == '\n') break;
     }
+    */
     endwin();
 }
 
