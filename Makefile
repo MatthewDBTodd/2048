@@ -1,17 +1,11 @@
 DEBUGFLAGS= -Wall -pedantic-errors -g  
-OPTFLAGS= -std=c++17 -Wall -pedantic-errors -O2 -O3
+OPTFLAGS= -Wall -pedantic-errors -O2 -O3
 
 2048: Game.o Board.o GameInput.o 2048_play.o Tile.o Display.o randomNum.o AIinput.o
 	g++ $(OPTFLAGS) Game.o Board.o GameInput.o 2048_play.o Tile.o Display.o randomNum.o AIinput.o -o 2048 -lncurses
 
 2048-debug: Game_d.o Board_d.o GameInput_d.o 2048_play_d.o Tile_d.o Display_d.o randomNum_d.o
 	g++ $(DEBUGFLAGS) Game_d.o Board_d.o GameInput_d.o 2048_play_d.o Tile_d.o Display_d.o randomNum_d.o -o 2048-debug -lncurses
-
-2048-sim: Game.o Board.o GameInput.o AIinput.o stats.o Tile.o Display.o randomNum.o mainMenu.o NoDisplay.o
-	g++ $(OPTFLAGS) Game.o Board.o GameInput.o AIinput.o stats.o Tile.o Display.o randomNum.o mainMenu.o NoDisplay.o -o 2048-sim -lncurses
-
-2048-sim-debug: Game_d.o Board_d.o GameInput_d.o stats_d.o Tile_d.o Display_d.o randomNum_d.o AIinput_d.o mainMenu_d.o
-	g++ $(DEBUGFLAGS) Game_d.o Board_d.o GameInput_d.o AIinput_d.o stats_d.o Tile_d.o Display_d.o randomNum_d.o mainMenu_d.o -o 2048-sim-debug -lncurses
 
 2048-AI: Game.o Board.o AIinput.o 2048_AI.o Tile.o Display.o randomNum.o
 	g++ $(OPTFLAGS) Game.o Board.o AIinput.o 2048_AI.o Tile.o Display.o randomNum.o -o 2048-AI -lncurses
