@@ -4,7 +4,7 @@
 #include "Tile.h"
 #include "Move.h"
 
-Board::Board() : curScore{0}, turnNum{0}, numEmptyTiles{16} {}
+Board::Board() : curScore{0}, turnNum{0}, _numEmptyTiles{16} {}
 
 bool Board::moveBoard(const char c) {
     static Right r;
@@ -21,7 +21,7 @@ bool Board::moveBoard(const char c) {
 }
 
 void Board::placeRandomTile() {
-    int randomIndex {(numEmptyTiles > 1) ? randomNum::getRandomNum(numEmptyTiles-1) : 0};
+    int randomIndex {(_numEmptyTiles > 1) ? randomNum::getRandomNum(_numEmptyTiles-1) : 0};
     int randomValue {randomNum::getRandomNum(9)};
     randomValue = (randomValue == 9) ? 4 : 2;
     int count {0};
@@ -29,14 +29,14 @@ void Board::placeRandomTile() {
         if (tile != 0) { continue; }
         if (count++ == randomIndex) {
             tile.setValue(randomValue);
-            --numEmptyTiles;
+            --_numEmptyTiles;
             break;
         }
     }
 }
 
 bool Board::isGameOver() {
-    if (numEmptyTiles > 0) { return false; }
+    if (_numEmptyTiles > 0) { return false; }
     for (std::size_t i {0}; i < board.size(); ++i) {
         switch (i) {
             // tiles on the right most column only need to check below
@@ -57,6 +57,26 @@ bool Board::isGameOver() {
 
 int Board::operator[](const std::size_t i) const {
     return board[i].value();
+}
+
+int Board::placeTileEmptyPos(int pos, int value) {
+    int count {0};
+    for (auto& tile : board) {
+        if (tile != 0) { continue; }
+        if (count++ == pos) {
+            tile.setValue(value);
+            --_numEmptyTiles;
+            break;
+        }
+    } 
+    return count-1;
+}
+
+void Board::placeTile(int pos, int value) {
+    board[pos].setValue(value);
+    if (value == 0) {
+        ++_numEmptyTiles;
+    }
 }
 
 /* move.start  = the starting position of the loop for each move type. Need to
@@ -99,7 +119,7 @@ void Board::merge(Move& move, int i) {
     curScore += (value * 2);
     board[move.previousTile].setValue(value * 2);
     board[i].setValue(0);
-    ++numEmptyTiles;
+    ++_numEmptyTiles;
     move.nextFreeSlot = i;
     move.previousTileValue = -1;
     move.previousTile = -1;

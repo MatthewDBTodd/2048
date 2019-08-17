@@ -13,11 +13,14 @@ public:
     void placeRandomTile();
     bool isGameOver();
     int operator[](const std::size_t i) const;
+    int numEmptyTiles() { return _numEmptyTiles; }
+    int placeTileEmptyPos(int pos, int value);
+    void placeTile(int pos, int value);
 private:
     std::array<Tile, 16> board;
     int curScore;
     int turnNum;
-    int numEmptyTiles;
+    int _numEmptyTiles;
     template <typename Move>
     bool move(Move& move);
     template <typename Move>

@@ -1,8 +1,13 @@
 #include "Game.h"
-#include "AIinput.h"
+//#include "AIinput.h"
 #include "mainMenu.h"
+#include "Expectimax.h"
 
 int main(int argc, char *argv[]) {
+    //Game g(new DebugDisplay(), new Expectimax());
+    Game g(new TerminalDisplay(), new Expectimax());
+    g.start();
+    /* 
     initMenu();
     int ch {getChoice()};
     switch (ch) {
@@ -19,4 +24,5 @@ int main(int argc, char *argv[]) {
         }
     }
     return 0;
+    */
 }
