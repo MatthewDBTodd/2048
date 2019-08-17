@@ -68,9 +68,9 @@ void printText() {
     erase();
     mvprintw(3, 6, "Enter the AI strength between 100 and 20000: ");
     mvprintw(5, 6, "The number entered is the number of game simulations the AI will run for each of the 4 moves per turn");
-    mvprintw(7, 6, "For reference, 100 is already pretty strong. It will get the 2048 tile most of the time, and the game will finish in a few seconds");
-    mvprintw(9, 6, "20000 game simulations per move direction will move very slowly, but will generally perform better on average");
-    mvprintw(11, 6, "Bear in mind though, that there's diminishing returns the higher you get, due to the luck aspect of the game");
-    mvprintw(13, 6, "2000 seems to be a good middle ground between speed and strength");
+    mvprintw(7, 6, "100 will get the 2048 tile ~83% of the time, and the 4096 tile ~7% of the time");
+    mvprintw(9, 6, "500 will get the 2048 tile ~96% of the time, and the 4096 tile ~45% of the time");
+    mvprintw(11, 6, "1000 will get the 2048 tile ~97% of the time, and the 4096 tile ~51% of the time");
+    mvprintw(13, 6, "Anything above 1000 gets quickly diminishing returns, though you will still see small improvements, but at the cost of slower move times");
     move(3, 51);
 }
