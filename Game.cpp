@@ -2,7 +2,6 @@
 #include "Display.h"
 #include "GameInput.h"
 #include "AIinput.h"
-#include "Expectimax.h"
 
 Game::Game() : display {new TerminalDisplay}, input {new PlayerInput} {}
 
@@ -14,10 +13,6 @@ Game::Game(GameInput* gi) : display {new TerminalDisplay}, input {gi} {
     if (testPtr) {
         testPtr->assignBoard(&board);
     }
-    Expectimax* ptr {dynamic_cast<Expectimax*>(gi)};
-    if (ptr) {
-        ptr->assignBoard(&board);
-    }
 }
 
 Game::Game(Display* dd, GameInput* gi) : display {dd}, input {gi} {
@@ -25,10 +20,6 @@ Game::Game(Display* dd, GameInput* gi) : display {dd}, input {gi} {
     AIinput* testPtr {dynamic_cast<AIinput*>(gi)};
     if (testPtr) {
         testPtr->assignBoard(&board);
-    }
-    Expectimax* ptr {dynamic_cast<Expectimax*>(gi)};
-    if (ptr) {
-        ptr->assignBoard(&board);
     }
 }
 
