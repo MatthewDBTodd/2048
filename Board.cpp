@@ -40,7 +40,7 @@ bool Board::moveBoard(const char move) {
     }
     bool hasMoved {false};
     for (int i {0}; i < 4; ++i, rowMask <<= 16) {
-        uint16_t row {static_cast<uint16_t>((board & rowMask) >> (16*i))};
+        uint64_t row {(board & rowMask) >> (16*i)};
         uint64_t newRow {(move == 'r' || move == 'd') ? forwardTable[row] : reverseTable[row]};
         if (newRow != row) {
             hasMoved = true;
