@@ -17,7 +17,6 @@ private:
     // Lookup tables
     static uint16_t forwardTable[65536];
     static uint16_t reverseTable[65536]; 
-    static uint64_t transposeTable[65536];
     static int scoreTable[65536];
     static uint8_t zeroTable[65536];
     const static uint16_t resetMasks[4];

@@ -13,7 +13,6 @@
  */
 uint16_t Board::forwardTable[65536];
 uint16_t Board::reverseTable[65536]; 
-uint64_t Board::transposeTable[65536];
 int Board::scoreTable[65536];
 uint8_t Board::zeroTable[65536];
 const uint16_t Board::resetMasks[4] {0xFFF0, 0xFF0F, 0xF0FF, 0x0FFF};
