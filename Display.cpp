@@ -3,9 +3,6 @@
 #include "Board.h"
 #include "Display.h"
 
-#include <iostream>
-#include <iomanip>
-
 #define RED 1
 #define YELLOW 2
 #define GREEN 3
@@ -121,19 +118,4 @@ void printScore(int score) {
     attron(COLOR_PAIR(WHITE));
     printw("Score: %i", score);
     attroff(COLOR_PAIR(WHITE));
-}
-
-//-------------
-void DebugDisplay::draw(const Board& b) const {
-    for (int i {0}; i < 16; ++i) {
-        if (i > 0 && i % 4 == 0) {
-            std::cout << "\n\n\n\n\n";
-        }
-        std::cout << std::setw(10) << b[i];
-    }
-    std::cout << "\n---------------------------------------------------------\n";
-}
-
-void DebugDisplay::gameOver(const Board& b) const {
-    std::cout << "Game over. Final score: " << b.score() << '\n';
 }

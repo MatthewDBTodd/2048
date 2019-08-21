@@ -11,12 +11,6 @@ public:
     virtual void gameOver(const Board& b) const = 0;
 };
 
-class DebugDisplay : public Display {
-public:
-    virtual void draw(const Board& b) const override;
-    virtual void gameOver(const Board& b) const override;
-};
-
 class TerminalDisplay : public Display {
 public:
     virtual void draw(const Board& b) const override;
