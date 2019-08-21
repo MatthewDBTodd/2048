@@ -29,11 +29,11 @@ private:
     uint16_t merge(uint16_t row, int bitNum, T& move) const;
     template <typename T>
     uint16_t swap(uint16_t row, int bitNum, int value, T& move) const;
-    uint64_t generateTransposition(uint16_t row) const;
+    //uint64_t generateTransposition(uint16_t row) const;
     int generateScore(uint16_t row) const;
     uint8_t generateNumZeroes(uint16_t row) const;
     int numEmptyTiles() const;
-    uint64_t rotateBoard(const uint64_t board) const;
+    uint64_t rotateBoard(uint64_t board) const;
     int getMask(const uint16_t row, const int pos) const;
 };
 

@@ -2,10 +2,6 @@
 #include "randomNum.h"
 #include "Move_.h"
 
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-
 /*
  * Board is represented as a 64-bit integer
  * left most digit is top left (i.e. the most significant bit):
@@ -27,24 +23,46 @@ Board::Board() : board {0}, _score {0} {
 }
 
 void Board::placeRandomTile() {
-    int emptyTiles {numEmptyTiles()}; 
+    int emptyTiles {numEmptyTiles()}; // 30
     int index {randomNum::getRandomNum(emptyTiles-1)};
     uint64_t val {static_cast<uint64_t>(randomNum::getRandomNum(9))};
     val = (val == 9) ? 2 : 1;
     int count {0};
-    uint64_t mask {0xF};
-    for (int i {0}; i < 16; ++i, mask <<= 4) {
-        uint64_t tile {board & mask};
-        tile >>= (i*4);
-        if (tile != 0) {
+    uint64_t boardCopy {board};
+    for (int i {0}; i < 16; ++i, boardCopy >>= 4) { //48
+        uint64_t tile {boardCopy & 0xF}; //1
+        if (tile != 0) { //1
             continue;
         }
-        if (count++ == index) {
-            board |= (val << (i*4));
+        if (count++ == index) { //2
+            board |= (val << (i << 2)); //3
             break;
         }
     }
 }
+
+// old version
+/* 
+void Board::placeRandomTile() {
+    int emptyTiles {numEmptyTiles()}; // 30
+    int index {randomNum::getRandomNum(emptyTiles-1)};
+    uint64_t val {static_cast<uint64_t>(randomNum::getRandomNum(9))};
+    val = (val == 9) ? 2 : 1;
+    int count {0};
+    uint64_t mask {0xF}; // 1
+    for (int i {0}; i < 16; ++i, mask <<= 4) { //48
+        uint64_t tile {board & mask}; //1
+        tile >>= (i*4); //2
+        if (tile != 0) { //1
+            continue;
+        }
+        if (count++ == index) { //2
+            board |= (val << (i*4)); //3
+            break;
+        }
+    }
+}
+*/
 
 bool Board::moveBoard(const char move) {
     uint64_t newBoard {0};
@@ -53,16 +71,15 @@ bool Board::moveBoard(const char move) {
         board = rotateBoard(board);
     }
     bool hasMoved {false};
-    for (int i {0}; i < 4; ++i, rowMask <<= 16) {
-        uint64_t row {(board & rowMask) >> (16*i)};
-        uint64_t newRow {(move == 'r' || move == 'd') ? forwardTable[row] : reverseTable[row]};
+    for (int i {0}; i < 4; ++i, board >>= 16) { 
+        uint64_t row {board & rowMask}; 
+        uint64_t newRow {(move == 'r' || move == 'd') ? forwardTable[row] : reverseTable[row]}; 
         if (newRow != row) {
             hasMoved = true;
             _score += scoreTable[row];
         }
-        newBoard |= (newRow << (i*16));
+        newBoard |= (newRow << (i << 4)); 
     }
-    // reverse back
     if (move == 'u' || move == 'd') {
         newBoard = rotateBoard(newBoard);
     }
@@ -108,8 +125,6 @@ int Board::operator[](const std::size_t i) const {
 }
 
 void Board::populateTables() {
-    //std::ofstream os;
-    //os.open("table.txt");
     for (int i {0}; i < 65536; ++i) {
         Forward f;
         Reverse r;
@@ -118,10 +133,6 @@ void Board::populateTables() {
         reverseTable[i] = generateRow(row, r);
         scoreTable[i] = generateScore(row);
         zeroTable[i] = generateNumZeroes(row);
-        transposeTable[i] = generateTransposition(row);
-
-        //os << std::setfill('0') << std::setw(4) << std::hex << i << '\n' <<
-        //"\t" << std::setw(16) << transposeTable[i] << "\n\n";
     }
 }
 
@@ -167,23 +178,6 @@ uint16_t Board::swap(uint16_t row, int bitNum, int value, T& move) const {
     return row;
 }
 
-/*
- * Transpose the board for up/down movement:
- * 0   1   2   3      0   4   8   C
- * 4   5   6   7 ---> 1   5   9   D
- * 8   9   A   B      2   6   A   E
- * C   D   E   F      3   7   B   F
- */
-uint64_t Board::generateTransposition(uint16_t row) const {
-    uint64_t board {0};
-    uint16_t mask {0xF000};
-    for (int i {0}; i < 4; ++i, row <<= 4) {
-        uint64_t newRow {static_cast<uint64_t>(row & mask)};
-        newRow <<= ((3-i)*16);
-        board |= newRow;
-    }
-    return board;
-}
 
 int Board::generateScore(uint16_t row) const {
     int score {0};
@@ -216,44 +210,34 @@ uint8_t Board::generateNumZeroes(uint16_t row) const {
 int Board::numEmptyTiles() const {
     int numZeroes {0};
     uint64_t boardCopy {board};
-    uint64_t rowMask {0xFFFF};
     for (int i {0}; i < 4; ++i, boardCopy >>= 16) {
-        uint64_t row {boardCopy & rowMask};
+        uint64_t row {boardCopy & 0xFFFF};
         numZeroes += zeroTable[row];
     }
     return numZeroes;
 }
 
-uint64_t Board::rotateBoard(const uint64_t board) const {
-    //std::cout<< std::setfill('0') << std::setw(16) << std::hex << board << '\n';
-    uint64_t newBoard {0};
-    uint16_t mask {0xFFFF};
-    for (int i {0}; i < 4; ++i) {
-        // extract row
-        uint16_t row {static_cast<uint16_t>((board >> ((3-i)*16)) & mask)};
-        newBoard |= (transposeTable[row] >> (i*4));
-        //std::cout << std::setfill('0') << std::setw(16) << std::hex << newBoard << '\n';
-    }
-    //std::cout << "----\n";
-    return newBoard;
-    /* 
-    uint64_t newBoard {0};
-    for (int i {0}; i < 4; ++i) {
-        for (int j {0}; j < 4; ++j) {
-            // make a mask to extract the bit you're going to be moving
-            uint64_t mask {0xFull << (((j*4)+i)*4)};
-            // extract the bits with the mask
-            mask &= board;
-            // shift back to right most position
-            mask >>= ((j*4)+i)*4;
-            // shift to new position
-            mask <<= ((i*4)+j)*4;
-            // set bits on newBoard
-            newBoard |= mask;
-        } 
-    }
-    return newBoard;
-    */
+/*
+ * Transpose the board for up/down movement:
+ * 0   1   2   3      0   4   8   C
+ * 4   5   6   7 ---> 1   5   9   D
+ * 8   9   A   B      2   6   A   E
+ * C   D   E   F      3   7   B   F
+ */
+uint64_t Board::rotateBoard(uint64_t board) const {
+    uint64_t x {(board ^ (board >> 12)) & 0x0000F0000F0000F0};
+    uint64_t y {x << 12};
+    board ^= x ^ y;
+
+    x = (board ^ (board >> 24)) & 0x00000000F0000F00;
+    y = x << 24;
+    board ^= x ^ y;
+
+    x = (board ^ (board >> 36)) & 0x000000000000F000;
+    y = x << 36;
+    board ^= x ^ y;
+
+    return board;
 }
 
 int Board::getMask(const uint16_t row, const int pos) const {
