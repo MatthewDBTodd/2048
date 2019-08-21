@@ -9,7 +9,6 @@
 using ptr_d = std::unique_ptr<Display>;
 using ptr_i = std::unique_ptr<GameInput>;
 
-
 class Game {
 public:
     Game();
