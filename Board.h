@@ -17,6 +17,7 @@ private:
     // Lookup tables
     static uint16_t forwardTable[65536];
     static uint16_t reverseTable[65536]; 
+    static uint64_t transposeTable[65536];
     static int scoreTable[65536];
     static uint8_t zeroTable[65536];
     const static uint16_t resetMasks[4];
@@ -28,6 +29,7 @@ private:
     uint16_t merge(uint16_t row, int bitNum, T& move) const;
     template <typename T>
     uint16_t swap(uint16_t row, int bitNum, int value, T& move) const;
+    uint64_t generateTransposition(uint16_t row) const;
     int generateScore(uint16_t row) const;
     uint8_t generateNumZeroes(uint16_t row) const;
     int numEmptyTiles() const;
