@@ -43,7 +43,7 @@ AIinput.o: AIinput.cpp AIinput.h GameInput.h
 AIinput_d.o: AIinput.cpp AIinput.h GameInput.h
 	g++ $(DEBUGFLAGS) -c AIinput.cpp -o AIinput_d.o
 
-Board.o: Board.cpp Board.h Move.h
+Board.o: Board.cpp Board.h 
 	g++ $(OPTFLAGS) -c Board.cpp 
 	
 Board_d.o: Board.cpp Board.h Move.h
