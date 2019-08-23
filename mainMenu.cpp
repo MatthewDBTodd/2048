@@ -55,7 +55,7 @@ int getAIStrength() {
     do {
         printText();
         char c {};
-        if ((scanw("%d%c", &choice, &c) == 1) && choice >= 100 && choice <= 20000) {
+        if ((scanw("%d%c", &choice, &c) == 1) && choice >= 100) {
             break;
         }
     } while (true);
@@ -66,11 +66,11 @@ int getAIStrength() {
 void printText() {
     echo();
     erase();
-    mvprintw(3, 6, "Enter the AI strength between 100 and 20000: ");
+    mvprintw(3, 6, "Enter the AI strength (at least 100): ");
     mvprintw(5, 6, "The number entered is the number of game simulations the AI will run for each of the 4 moves per turn");
     mvprintw(7, 6, "100 will get the 2048 tile ~83%% of the time, and the 4096 tile ~7%% of the time");
     mvprintw(9, 6, "500 will get the 2048 tile ~96%% of the time, and the 4096 tile ~45%% of the time");
     mvprintw(11, 6, "1000 will get the 2048 tile ~97%% of the time, and the 4096 tile ~51%% of the time");
     mvprintw(13, 6, "Anything above 1000 gets quickly diminishing returns, though you will still see small improvements, but at the cost of slower move times");
-    move(3, 51);
+    move(3, 44);
 }
