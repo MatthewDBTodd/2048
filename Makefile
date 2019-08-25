@@ -1,4 +1,3 @@
-DEBUGFLAGS= -Wall -pedantic-errors -g  
 OPTFLAGS= -std=c++17 -Wall -pedantic-errors -O2 -O3 
 
 2048: Game.o Board.o GameInput.o AIinput.o main.o Display.o randomNum.o mainMenu.o
