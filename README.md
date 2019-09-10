@@ -1,4 +1,4 @@
 # 2048-AI
-Clone of the popular 2048 mobile game for the Linux terminal
+AI for the popular mobile game 2048 written for the Linux terminal (uses the ncurses library).
 
-You can either play the game yourself, or watch the AI play
+You can also play the game yourself.
