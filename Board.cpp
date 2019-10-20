@@ -4,7 +4,7 @@
 
 /*
  * Board is represented as a 64-bit integer
- * left most digit is top left (i.e. the most significant bit):
+ * left most digit is top left (i.e. the most significant bit)
  * 0x0123456789ABCDEF:
  * 0   1   2   3
  * 4   5   6   7
